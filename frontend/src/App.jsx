@@ -13,6 +13,7 @@ import ArmarPrueba from "./components/ArmarPrueba.jsx";
 import TestPreviewModal from "./components/TestPreviewModal.jsx";
 import UsuariosAdmin from "./components/UsuariosAdmin.jsx";
 import AuditoriaLog from "./components/AuditoriaLog.jsx";
+import AuditoriaLog from "./components/AuditoriaLog.jsx";
 import ImportarItems from "./components/ImportarItems.jsx";
 import CambiarPasswordModal from "./components/CambiarPasswordModal.jsx";
 
@@ -26,7 +27,7 @@ export default function App() {
   const [tests, setTests] = useState([]);
   const [users, setUsers] = useState([]);
 
-  const TABS_VALIDOS = ["dashboard", "banco", "specs", "armar", "importar", "usuarios"];
+  const TABS_VALIDOS = ["dashboard", "banco", "specs", "armar", "importar", "usuarios", "auditoria"];
   const leerTabDesdeHash = () => {
     const h = window.location.hash.replace("#", "");
     return TABS_VALIDOS.includes(h) ? h : "dashboard";
@@ -321,6 +322,7 @@ export default function App() {
         )}
 
         {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
+          {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
           {tab === "usuarios" && isAdmin && (
           <UsuariosAdmin users={users} onCreate={crearUsuario} onUpdate={actualizarUsuario} onDelete={eliminarUsuario} onResetPassword={restablecerPassword} />
         )}
@@ -340,6 +342,8 @@ export default function App() {
     </div>
   );
 }
+
+
 
 
 

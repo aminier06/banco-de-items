@@ -13,6 +13,7 @@ import ArmarPrueba from "./components/ArmarPrueba.jsx";
 import TestPreviewModal from "./components/TestPreviewModal.jsx";
 import UsuariosAdmin from "./components/UsuariosAdmin.jsx";
 import AuditoriaLog from "./components/AuditoriaLog.jsx";
+import ContextoSelector from "./components/ContextoSelector.jsx";
 import ImportarItems from "./components/ImportarItems.jsx";
 import CambiarPasswordModal from "./components/CambiarPasswordModal.jsx";
 
@@ -50,6 +51,13 @@ export default function App() {
   const [reviewingItem, setReviewingItem] = useState(null);
   const [previewTest, setPreviewTest] = useState(null);
   const [mostrarCambioPassword, setMostrarCambioPassword] = useState(false);
+  const [nivel, setNivel] = useState("secundaria");
+  const [grado, setGrado] = useState("sexto");
+  const cambiarContexto = (nuevoNivel, nuevoGrado) => {
+    setNivel(nuevoNivel);
+    setGrado(nuevoGrado);
+    recargarTodo();
+  };
   const [savingNote, setSavingNote] = useState("");
 
   const isRevisor = currentUser?.rol === "Revisor/a";
@@ -258,7 +266,8 @@ export default function App() {
           </div>
         ))}
 
-        <div style={{ marginTop: "auto", paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.14)" }}>
+        <ContextoSelector nivel={nivel} grado={grado} onChange={cambiarContexto} />
+          <div style={{ marginTop: "auto", paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.14)" }}>
           <div style={{ fontSize: 13, fontWeight: 600, color: "#fff" }}>{currentUser.nombre}</div>
           <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", marginBottom: 4 }}>{ROL_LABELS[currentUser.rol] || currentUser.rol}</div>
           {currentUser.area && (
@@ -340,6 +349,9 @@ export default function App() {
     </div>
   );
 }
+
+
+
 
 
 

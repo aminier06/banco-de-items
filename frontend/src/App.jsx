@@ -322,7 +322,6 @@ export default function App() {
 
         {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
           {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
-          {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
           {tab === "usuarios" && isAdmin && (
           <UsuariosAdmin users={users} onCreate={crearUsuario} onUpdate={actualizarUsuario} onDelete={eliminarUsuario} onResetPassword={restablecerPassword} />
         )}
@@ -342,6 +341,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 

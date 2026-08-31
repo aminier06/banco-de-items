@@ -1,17 +1,25 @@
 export const NIVELES = [
   { id: "primaria", nombre: "Primaria" },
   { id: "secundaria", nombre: "Secundaria" },
+  { id: "adultos", nombre: "Adultos Secundaria" },
 ];
 
 export const GRADOS = [
   { id: "tercero", nombre: "3ro" },
   { id: "sexto", nombre: "6to" },
+  { id: "secundaria_adultos", nombre: "Secundaria" },
 ];
 
-// Areas disponibles segun grado (igual para primaria y secundaria)
+export const GRADOS_POR_NIVEL = {
+  primaria: ["tercero", "sexto"],
+  secundaria: ["tercero", "sexto"],
+  adultos: ["secundaria_adultos"],
+};
+
 export const AREAS_POR_GRADO = {
   tercero: ["lengua", "matematica"],
   sexto: ["lengua", "ciencias_naturaleza", "ciencias_sociales", "matematica"],
+  secundaria_adultos: ["lengua", "ciencias_naturaleza", "ciencias_sociales", "matematica"],
 };
 
 export const AREAS = [
@@ -41,5 +49,3 @@ export const ESTADOS = {
   aprobado:    { label: "Aprobado",    color: "#3f6b4f" },
   rechazado:   { label: "Rechazado",   color: "#a23b3b" },
 };
-
-

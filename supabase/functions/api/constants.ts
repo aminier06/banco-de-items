@@ -3,20 +3,27 @@ export const ROLES = ["elaborador", "revisor", "administrador"];
 export const NIVELES = [
   { id: "primaria", nombre: "Primaria" },
   { id: "secundaria", nombre: "Secundaria" },
+  { id: "adultos", nombre: "Adultos Secundaria" },
 ];
 export const NIVEL_IDS = NIVELES.map((n) => n.id);
 
 export const GRADOS = [
   { id: "tercero", nombre: "3ro" },
   { id: "sexto", nombre: "6to" },
+  { id: "secundaria_adultos", nombre: "Secundaria" },
 ];
 export const GRADO_IDS = GRADOS.map((g) => g.id);
 
-// Areas disponibles segun el grado (igual para primaria y secundaria).
-// En 3ro solo se evaluan Lengua y Matematica.
+export const GRADOS_POR_NIVEL: Record<string, string[]> = {
+  primaria: ["tercero", "sexto"],
+  secundaria: ["tercero", "sexto"],
+  adultos: ["secundaria_adultos"],
+};
+
 export const AREAS_POR_GRADO: Record<string, string[]> = {
   tercero: ["lengua", "matematica"],
   sexto: ["lengua", "ciencias_naturaleza", "ciencias_sociales", "matematica"],
+  secundaria_adultos: ["lengua", "ciencias_naturaleza", "ciencias_sociales", "matematica"],
 };
 
 export const AREAS = [

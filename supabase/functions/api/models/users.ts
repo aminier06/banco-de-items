@@ -1,4 +1,5 @@
 import { sql } from "../db.ts";
+import { parseJsonb } from "../jsonb.ts";
 
 function mapRow(row: any) {
   if (!row) return null;
@@ -9,6 +10,7 @@ function mapRow(row: any) {
     passwordHash: row.password_hash,
     rol: row.rol,
     area: row.area,
+    areasAsignadas: parseJsonb(row.areas_asignadas),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -36,18 +38,26 @@ export const Users = {
     return mapRow(rows[0]);
   },
 
-  async create({ nombre, correo, passwordHash, rol, area }: any) {
+  async create({ nombre, correo, passwordHash, rol, area, areasAsignadas }: any) {
     const id = crypto.randomUUID();
+    const areasJson = areasAsignadas ? JSON.stringify(areasAsignadas) : null;
     await sql`
-      INSERT INTO users (id, nombre, correo, password_hash, rol, area)
-      VALUES (${id}, ${nombre}, ${correo}, ${passwordHash}, ${rol}, ${area ?? null})
+      INSERT INTO users (id, nombre, correo, password_hash, rol, area, areas_asignadas)
+      VALUES (${id}, ${nombre}, ${correo}, ${passwordHash}, ${rol}, ${area ?? null}, ${areasJson ? sql`${areasJson}::jsonb` : null})
     `;
     return this.findById(id);
   },
 
-  async update(id: string, { nombre, correo, rol, area }: any) {
+  async update(id: string, { nombre, correo, rol, area, areasAsignadas }: any) {
+    const areasJson = areasAsignadas ? JSON.stringify(areasAsignadas) : null;
     await sql`
-      UPDATE users SET nombre = ${nombre}, correo = ${correo}, rol = ${rol}, area = ${area ?? null}, updated_at = now()
+      UPDATE users SET
+        nombre = ${nombre},
+        correo = ${correo},
+        rol = ${rol},
+        area = ${area ?? null},
+        areas_asignadas = ${areasJson ? sql`${areasJson}::jsonb` : null},
+        updated_at = now()
       WHERE id = ${id}
     `;
     return this.findById(id);

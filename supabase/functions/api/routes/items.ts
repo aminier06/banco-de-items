@@ -1,4 +1,4 @@
-import { Hono } from "jsr:@hono/hono@4";
+﻿import { Hono } from "jsr:@hono/hono@4";
 import { Items } from "../models/items.ts";
 import { requerirSesion, requerirAdmin } from "../auth.ts";
 import { AREA_IDS, DIFICULTADES, esTecnico } from "../constants.ts";
@@ -216,3 +216,4 @@ itemsRoutes.post("/import", requerirAdmin, async (c) => {
   const creados = await Items.bulkImport(validas, user.id);
   return c.json({ importados: creados, descartados: filas.length - validas.length }, 201);
 });
+

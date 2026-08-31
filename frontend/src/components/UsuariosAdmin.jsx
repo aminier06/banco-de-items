@@ -31,7 +31,7 @@ function FormUsuario({ inicial, onGuardar, onCancelar, titulo }) {
     setGuardando(true);
     try {
       await onGuardar(form);
-    } catch (err: any) {
+    } catch (err) {
       setError(err.message || "No se pudo guardar.");
     } finally {
       setGuardando(false);

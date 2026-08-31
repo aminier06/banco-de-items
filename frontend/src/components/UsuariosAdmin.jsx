@@ -20,7 +20,7 @@ function FormUsuario({ inicial, onGuardar, onCancelar, titulo }) {
   const toggleArea = (areaId) => {
     const actuales = form.areasAsignadas || [];
     if (actuales.includes(areaId)) {
-      setForm({ ...form, areasAsignadas: actuales.filter((a: string) => a !== areaId) });
+      setForm({ ...form, areasAsignadas: actuales.filter((a) => a !== areaId) });
     } else {
       setForm({ ...form, areasAsignadas: [...actuales, areaId] });
     }

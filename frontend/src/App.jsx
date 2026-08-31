@@ -251,7 +251,7 @@ export default function App() {
           { id: "specs", label: "Especificaciones", icon: ClipboardList },
           ...(esTecnico ? [{ id: "armar", label: "Armar prueba", icon: FileText }] : []),
           ...(isAdmin ? [{ id: "importar", label: "Importar ítems", icon: UploadCloud }] : []),
-          ...(isAdmin ? [{ id: "usuarios", label: "Usuarios", icon: Users }] : []),
+          ...(isAdmin ? [{ id: "usuarios", label: "Usuarios", icon: Users }, { id: "auditoria", label: "Auditoria", icon: ShieldCheck }] : []),
         ].map((t) => (
           <div key={t.id} className={`navlink ${tab === t.id ? "active" : ""}`} onClick={() => setTab(t.id)}>
             <t.icon size={16} /> {t.label}
@@ -321,6 +321,7 @@ export default function App() {
         )}
 
         {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
+          {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
           {tab === "usuarios" && isAdmin && (
           <UsuariosAdmin users={users} onCreate={crearUsuario} onUpdate={actualizarUsuario} onDelete={eliminarUsuario} onResetPassword={restablecerPassword} />
         )}
@@ -340,6 +341,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 

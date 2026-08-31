@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect, useCallback } from "react";
-import { LayoutDashboard, Library, ClipboardList, FileText, Users, UploadCloud, LogOut, Check, KeyRound } from "lucide-react";
+import { LayoutDashboard, Library, ClipboardList, FileText, Users, UploadCloud, LogOut, Check, KeyRound, ShieldCheck } from "lucide-react";
 import { api } from "./api.js";
 import { areaInfo, ROL_LABELS } from "./lib/constants.js";
 import { GlobalStyles } from "./components/shared.jsx";
@@ -12,6 +12,7 @@ import SpecsEditor from "./components/SpecsEditor.jsx";
 import ArmarPrueba from "./components/ArmarPrueba.jsx";
 import TestPreviewModal from "./components/TestPreviewModal.jsx";
 import UsuariosAdmin from "./components/UsuariosAdmin.jsx";
+import AuditoriaLog from "./components/AuditoriaLog.jsx";
 import ImportarItems from "./components/ImportarItems.jsx";
 import CambiarPasswordModal from "./components/CambiarPasswordModal.jsx";
 
@@ -319,7 +320,8 @@ export default function App() {
           <ImportarItems specs={specs} users={users} currentUser={currentUser} onImportar={importarItems} />
         )}
 
-        {tab === "usuarios" && isAdmin && (
+        {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
+          {tab === "usuarios" && isAdmin && (
           <UsuariosAdmin users={users} onCreate={crearUsuario} onUpdate={actualizarUsuario} onDelete={eliminarUsuario} onResetPassword={restablecerPassword} />
         )}
       </main>
@@ -338,4 +340,6 @@ export default function App() {
     </div>
   );
 }
+
+
 

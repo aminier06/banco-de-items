@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
+﻿const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
 let token = localStorage.getItem("token") || null;
 
@@ -41,6 +41,7 @@ export const api = {
     setToken(d.token);
     return d.user;
   }),
+  get: (endpoint) => request(endpoint),
   me: () => request("/auth/me").then((d) => d.user),
   changeMyPassword: (passwordActual, passwordNueva) =>
     request("/auth/change-password", { method: "POST", body: { passwordActual, passwordNueva } }),
@@ -87,3 +88,4 @@ export const api = {
   createTest: (payload) => request("/tests", { method: "POST", body: payload }).then((d) => d.test),
   deleteTest: (id) => request(`/tests/${id}`, { method: "DELETE" }),
 };
+

@@ -1,4 +1,4 @@
-import { Hono } from "jsr:@hono/hono@4";
+﻿import { Hono } from "jsr:@hono/hono@4";
 import { cors } from "jsr:@hono/hono@4/cors";
 import { autenticar } from "./auth.ts";
 import { authRoutes } from "./routes/auth.ts";
@@ -6,6 +6,7 @@ import { usersRoutes } from "./routes/users.ts";
 import { specsRoutes } from "./routes/specs.ts";
 import { itemsRoutes } from "./routes/items.ts";
 import { testsRoutes } from "./routes/tests.ts";
+import { auditRoutes } from "./routes/audit_routes.ts";
 import { adminRoutes } from "./routes/admin.ts";
 
 // El nombre de la función es "api"; todas las rutas deben ir prefijadas
@@ -37,6 +38,7 @@ app.route("/users", usersRoutes);
 app.route("/specs", specsRoutes);
 app.route("/items", itemsRoutes);
 app.route("/tests", testsRoutes);
+app.route("/audit", auditRoutes);
 app.route("/admin", adminRoutes);
 
 app.onError((err, c) => {
@@ -45,3 +47,4 @@ app.onError((err, c) => {
 });
 
 Deno.serve(app.fetch);
+

@@ -31,28 +31,18 @@ function mapRow(row: any) {
 }
 
 export const Items = {
-  async list({ area, estado, nivel, grado }: { area?: string; estado?: string; nivel?: string | null; grado?: string | null } = {}) {
+  async list({ area, estado, nivel, grado } = {}) {
+    const n = nivel || "secundaria";
+    const g = grado || "sexto";
     let rows;
     if (area && estado) {
-      rows = await sql`
-        SELECT items.*, users.nombre AS autor_nombre FROM items LEFT JOIN users ON users.id = items.autor_id
-        WHERE items.area = ${area} AND items.estado = ${estado} ORDER BY items.created_at DESC
-      `;
+      rows = await sql`SELECT items.*, users.nombre AS autor_nombre FROM items LEFT JOIN users ON users.id = items.autor_id WHERE items.area = ${area} AND items.estado = ${estado} AND items.nivel = ${n} AND items.grado = ${g} ORDER BY items.created_at DESC`;
     } else if (area) {
-      rows = await sql`
-        SELECT items.*, users.nombre AS autor_nombre FROM items LEFT JOIN users ON users.id = items.autor_id
-        WHERE items.area = ${area} ORDER BY items.created_at DESC
-      `;
+      rows = await sql`SELECT items.*, users.nombre AS autor_nombre FROM items LEFT JOIN users ON users.id = items.autor_id WHERE items.area = ${area} AND items.nivel = ${n} AND items.grado = ${g} ORDER BY items.created_at DESC`;
     } else if (estado) {
-      rows = await sql`
-        SELECT items.*, users.nombre AS autor_nombre FROM items LEFT JOIN users ON users.id = items.autor_id
-        WHERE items.estado = ${estado} ORDER BY items.created_at DESC
-      `;
+      rows = await sql`SELECT items.*, users.nombre AS autor_nombre FROM items LEFT JOIN users ON users.id = items.autor_id WHERE items.estado = ${estado} AND items.nivel = ${n} AND items.grado = ${g} ORDER BY items.created_at DESC`;
     } else {
-      rows = await sql`
-        SELECT items.*, users.nombre AS autor_nombre FROM items LEFT JOIN users ON users.id = items.autor_id
-        ORDER BY items.created_at DESC
-      `;
+      rows = await sql`SELECT items.*, users.nombre AS autor_nombre FROM items LEFT JOIN users ON users.id = items.autor_id WHERE items.nivel = ${n} AND items.grado = ${g} ORDER BY items.created_at DESC`;
     }
     return rows.map(mapRow);
   },
@@ -151,5 +141,7 @@ export const Items = {
     });
   },
 };
+
+
 
 

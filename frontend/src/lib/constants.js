@@ -34,3 +34,11 @@ export const ROL_LABELS = {
 export const DIFICULTADES = ["Baja", "Media", "Alta"];
 
 export const ESTADOS = ["borrador", "en_revision", "aprobado", "rechazado"];
+
+export const ORDEN_ESTADOS = {
+  borrador: 0,
+  en_revision: 1,
+  aprobado: 2,
+  rechazado: 3,
+};
+

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+﻿import React, { useState, useEffect, useCallback } from "react";
 import { LayoutDashboard, Library, ClipboardList, FileText, Users, UploadCloud, LogOut, Check, KeyRound } from "lucide-react";
 import { api } from "./api.js";
 import { areaInfo, ROL_LABELS } from "./lib/constants.js";
@@ -51,7 +51,7 @@ export default function App() {
   const [mostrarCambioPassword, setMostrarCambioPassword] = useState(false);
   const [savingNote, setSavingNote] = useState("");
 
-  const isRevisor = currentUser?.rol === "revisor";
+  const isRevisor = currentUser?.rol === "Revisor/a";
   const isAdmin = currentUser?.rol === "administrador";
   const esTecnico = isRevisor || isAdmin;
 
@@ -338,3 +338,4 @@ export default function App() {
     </div>
   );
 }
+

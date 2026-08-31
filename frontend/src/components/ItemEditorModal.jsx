@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { Save, ImagePlus, X } from "lucide-react";
 import { AREAS, DIFICULTADES } from "../lib/constants.js";
 import { contarPalabras } from "../lib/utils.js";
@@ -38,7 +38,7 @@ export default function ItemEditorModal({ itemSeed, specs, currentUser, onClose,
   const soloLectura =
     !esNuevo &&
     !(itemSeed.autorId === currentUser.id && (itemSeed.estado === "borrador" || itemSeed.estado === "rechazado")) &&
-    currentUser.rol !== "revisor" &&
+    currentUser.rol !== "Revisor/a" &&
     currentUser.rol !== "administrador";
 
   const spec = specs[form.area];
@@ -274,3 +274,4 @@ export default function ItemEditorModal({ itemSeed, specs, currentUser, onClose,
     </ModalShell>
   );
 }
+

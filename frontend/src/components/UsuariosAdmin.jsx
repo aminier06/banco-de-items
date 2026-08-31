@@ -47,7 +47,7 @@ function FilaUsuario({ user, onUpdate, onDelete, onResetPassword }) {
         <input className="bib-input" value={draft.correo} onChange={(e) => setDraft({ ...draft, correo: e.target.value })} placeholder="correo@minerd.gob.do" />
         <select className="bib-select" value={draft.rol} onChange={(e) => setDraft({ ...draft, rol: e.target.value, area: e.target.value === "elaborador" ? draft.area || AREAS[0].id : null })}>
           <option value="elaborador">Elaborador/a</option>
-          <option value="revisor">Revisor</option>
+          <option value="Revisor/a">Revisor</option>
           <option value="administrador">Administrador/a</option>
         </select>
         <select className="bib-select" disabled={draft.rol !== "elaborador"} value={draft.area || ""} onChange={(e) => setDraft({ ...draft, area: e.target.value })}>
@@ -151,4 +151,5 @@ export default function UsuariosAdmin({ users, onCreate, onUpdate, onDelete, onR
     </div>
   );
 }
+
 

@@ -15,10 +15,11 @@ export const ESTADOS = {
 };
 export const ORDEN_ESTADOS = ["borrador", "en_revision", "aprobado", "rechazado"];
 
-export const ROL_LABELS = { elaborador: "Elaborador/a", revisor: "Revisor", administrador: "Administrador/a" };
+export const ROL_LABELS = { elaborador: "Elaborador/a", revisor: "Revisor/a", administrador: "Administrador/a" };
 
 export const areaInfo = (id) => AREAS.find((a) => a.id === id);
 
-export const esTecnico = (rol) => rol === "revisor" || rol === "administrador";
+export const esTecnico = (rol) => rol === "Revisor/a" || rol === "administrador";
 export const esAdmin = (rol) => rol === "administrador";
+
 

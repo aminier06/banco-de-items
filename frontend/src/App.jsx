@@ -101,7 +101,7 @@ export default function App() {
     setCargandoDatos(true);
     try {
       const [itemsRes, specsRes, testsRes, usersRes] = await Promise.all([
-        api.listItems(nivel, grado),
+        api.listItems({ nivel, grado }),
         api.getSpecs(nivel, grado),
         api.listTests(),
         api.listUsers().catch(() => []), // solo admin puede listar; otros roles reciben 403
@@ -348,6 +348,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 

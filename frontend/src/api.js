@@ -54,7 +54,7 @@ export const api = {
   resetPassword: (id, password) => request(`/users/${id}/reset-password`, { method: "POST", body: { password } }).then((d) => d.password),
 
   // --- especificaciones ---
-  getSpecs: () => request("/specs").then((d) => d.specs),
+  getSpecs: (nivel = "secundaria", grado = "sexto") => request(`/specs?nivel=${nivel}&grado=${grado}`).then((d) => d.specs),
   saveSpec: (area, payload) => request(`/specs/${area}`, { method: "PUT", body: payload }).then((d) => d.spec),
 
   // --- ítems ---
@@ -88,4 +88,5 @@ export const api = {
   createTest: (payload) => request("/tests", { method: "POST", body: payload }).then((d) => d.test),
   deleteTest: (id) => request(`/tests/${id}`, { method: "DELETE" }),
 };
+
 

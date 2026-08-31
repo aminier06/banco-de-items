@@ -63,7 +63,7 @@ function FormUsuario({ inicial, onGuardar, onCancelar, titulo }) {
             <label className="bib-label">Area asignada</label>
             <select className="bib-select" value={form.area || ""} onChange={(e) => setForm({ ...form, area: e.target.value })}>
               <option value="">Selecciona un area...</option>
-              {AREAS.map((a: any) => <option key={a.id} value={a.id}>{a.nombre}</option>)}
+              {AREAS.map((a) => <option key={a.id} value={a.id}>{a.nombre}</option>)}
             </select>
           </div>
         )}
@@ -95,7 +95,7 @@ function FormUsuario({ inicial, onGuardar, onCancelar, titulo }) {
           </div>
           {!todasLasAreas && (
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", paddingLeft: 4 }}>
-              {AREAS.map((a: any) => (
+              {AREAS.map((a) => (
                 <label key={a.id} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, cursor: "pointer" }}>
                   <input
                     type="checkbox"
@@ -145,7 +145,7 @@ export default function UsuariosAdmin({ users, onCreate, onUpdate, onDelete, onR
   const etiquetaAreas = (user) => {
     if (user.rol !== "revisor") return null;
     if (!user.areasAsignadas || user.areasAsignadas.length === 0) return "Todas las areas";
-    return user.areasAsignadas.map((id: string) => AREAS.find((a: any) => a.id === id)?.nombre || id).join(", ");
+    return user.areasAsignadas.map((id) => AREAS.find((a) => a.id === id)?.nombre || id).join(", ");
   };
 
   return (
@@ -191,7 +191,7 @@ export default function UsuariosAdmin({ users, onCreate, onUpdate, onDelete, onR
                     {u.correo} &nbsp;·&nbsp;
                     <span className="code-pill">{ROLES_LABEL[u.rol] || u.rol}</span>
                     {u.rol === "elaborador" && u.area && (
-                      <> &nbsp;·&nbsp; {AREAS.find((a: any) => a.id === u.area)?.nombre || u.area}</>
+                      <> &nbsp;·&nbsp; {AREAS.find((a) => a.id === u.area)?.nombre || u.area}</>
                     )}
                     {u.rol === "revisor" && (
                       <> &nbsp;·&nbsp; <span style={{ color: "var(--ink-soft)" }}>{etiquetaAreas(u)}</span></>

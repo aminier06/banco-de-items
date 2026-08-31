@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { UserPlus, Edit2, Trash2, KeyRound, Eye, EyeOff } from "lucide-react";
 import { AREAS, AREA_IDS } from "../lib/constants.js";
 import { Banner } from "./shared.jsx";
@@ -17,7 +17,7 @@ function FormUsuario({ inicial, onGuardar, onCancelar, titulo }) {
   // areasAsignadas para revisores: null = todas, [] = ninguna, [ids] = esas areas
   const todasLasAreas = form.areasAsignadas === null || form.areasAsignadas === undefined;
 
-  const toggleArea = (areaId: string) => {
+  const toggleArea = (areaId) => {
     const actuales = form.areasAsignadas || [];
     if (actuales.includes(areaId)) {
       setForm({ ...form, areasAsignadas: actuales.filter((a: string) => a !== areaId) });
@@ -225,3 +225,4 @@ export default function UsuariosAdmin({ users, onCreate, onUpdate, onDelete, onR
     </div>
   );
 }
+

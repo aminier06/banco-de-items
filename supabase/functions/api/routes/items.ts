@@ -59,7 +59,9 @@ itemsRoutes.post("/upload-imagen", async (c) => {
 itemsRoutes.get("/", async (c) => {
   const area = c.req.query("area");
   const estado = c.req.query("estado");
-  const items = await Items.list({ area, estado });
+  const nivel = c.req.query("nivel") || null;
+  const grado = c.req.query("grado") || null;
+  const items = await Items.list({ area, estado, nivel, grado });
   return c.json({ items });
 });
 
@@ -177,3 +179,5 @@ itemsRoutes.post("/import", requerirAdmin, async (c) => {
     detalle: { archivo: nombreArchivo, importados: creados, descartados: filas.length - validas.length }, ip: obtenerIp(c) });
   return c.json({ importados: creados, descartados: filas.length - validas.length }, 201);
 });
+
+

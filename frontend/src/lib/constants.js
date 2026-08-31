@@ -1,25 +1,36 @@
-﻿export const AREAS = [
-  { id: "lengua", nombre: "Lengua Española", abrev: "LE", color: "#1C3144" },
-  { id: "ciencias_naturaleza", nombre: "Ciencias de la Naturaleza", abrev: "CN", color: "#3F6B4F" },
-  { id: "ciencias_sociales", nombre: "Ciencias Sociales", abrev: "CS", color: "#8A4B2E" },
-  { id: "matematica", nombre: "Matemática", abrev: "MA", color: "#56406B" },
+export const NIVELES = [
+  { id: "primaria", nombre: "Primaria" },
+  { id: "secundaria", nombre: "Secundaria" },
 ];
+
+export const GRADOS = [
+  { id: "tercero", nombre: "3ro" },
+  { id: "sexto", nombre: "6to" },
+];
+
+// Areas disponibles segun grado (igual para primaria y secundaria)
+export const AREAS_POR_GRADO = {
+  tercero: ["lengua", "matematica"],
+  sexto: ["lengua", "ciencias_naturaleza", "ciencias_sociales", "matematica"],
+};
+
+export const AREAS = [
+  { id: "lengua", nombre: "Lengua Espanola" },
+  { id: "ciencias_naturaleza", nombre: "Ciencias de la Naturaleza" },
+  { id: "ciencias_sociales", nombre: "Ciencias Sociales" },
+  { id: "matematica", nombre: "Matematica" },
+];
+
+export function areaInfo(id) {
+  return AREAS.find((a) => a.id === id) || { id, nombre: id };
+}
+
+export const ROL_LABELS = {
+  elaborador: "Elaborador/a",
+  revisor: "Revisor/a",
+  administrador: "Administrador/a",
+};
 
 export const DIFICULTADES = ["Baja", "Media", "Alta"];
 
-export const ESTADOS = {
-  borrador: { label: "Borrador", color: "#8A8579" },
-  en_revision: { label: "En revisión", color: "#B8862B" },
-  aprobado: { label: "Aprobado", color: "#3F6B4F" },
-  rechazado: { label: "Rechazado", color: "#A23B3B" },
-};
-export const ORDEN_ESTADOS = ["borrador", "en_revision", "aprobado", "rechazado"];
-
-export const ROL_LABELS = { elaborador: "Elaborador/a", revisor: "Revisor/a", administrador: "Administrador/a" };
-
-export const areaInfo = (id) => AREAS.find((a) => a.id === id);
-
-export const esTecnico = (rol) => rol === "Revisor/a" || rol === "administrador";
-export const esAdmin = (rol) => rol === "administrador";
-
-
+export const ESTADOS = ["borrador", "en_revision", "aprobado", "rechazado"];

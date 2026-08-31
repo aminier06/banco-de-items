@@ -10,6 +10,8 @@ function mapRow(row: any) {
     evidenciaId: row.evidencia_id,
     tareaId: row.tarea_id,
     competenciaId: row.competencia_id,
+    nivel: row.nivel,
+    grado: row.grado,
     imagenUrl: row.imagen_url,
     tipoTexto: row.tipo_texto,
     dificultad: row.dificultad,
@@ -29,7 +31,7 @@ function mapRow(row: any) {
 }
 
 export const Items = {
-  async list({ area, estado }: { area?: string; estado?: string } = {}) {
+  async list({ area, estado, nivel, grado }: { area?: string; estado?: string; nivel?: string | null; grado?: string | null } = {}) {
     let rows;
     if (area && estado) {
       rows = await sql`
@@ -76,10 +78,10 @@ export const Items = {
     const id = crypto.randomUUID();
     await sql`
       INSERT INTO items
-        (id, area, afirmacion_id, evidencia_id, tarea_id, competencia_id, imagen_url, tipo_texto, dificultad, contexto, enunciado, opciones,
+        (id, area, afirmacion_id, evidencia_id, tarea_id, competencia_id, imagen_url, nivel, grado, tipo_texto, dificultad, contexto, enunciado, opciones,
          respuesta_correcta, justificacion_correcta, justificacion_distractores, estado, historial, autor_id)
       VALUES (
-        ${id}, ${b.area}, ${b.afirmacionId || null}, ${b.evidenciaId || null}, ${b.tareaId || null}, ${b.competenciaId || null}, ${b.imagenUrl || null}, ${b.tipoTexto || null},
+        ${id}, ${b.area}, ${b.afirmacionId || null}, ${b.evidenciaId || null}, ${b.tareaId || null}, ${b.competenciaId || null}, ${b.imagenUrl || null}, ${b.nivel || "secundaria"}, ${b.grado || "sexto"}, ${b.tipoTexto || null},
         ${b.dificultad}, ${b.contexto || null}, ${b.enunciado}, ${JSON.stringify(b.opciones)}::jsonb,
         ${b.respuestaCorrecta}, ${b.justificacionCorrecta || null}, ${b.justificacionDistractores || null},
         ${b.estado || "borrador"}, ${JSON.stringify(b.historial || [])}::jsonb, ${autorId}
@@ -98,6 +100,8 @@ export const Items = {
         tarea_id = ${b.tareaId ?? actual.tareaId},
         competencia_id = ${b.competenciaId ?? actual.competenciaId},
         imagen_url = ${b.imagenUrl ?? actual.imagenUrl},
+        nivel = ${b.nivel ?? actual.nivel},
+        grado = ${b.grado ?? actual.grado},
         tipo_texto = ${b.tipoTexto ?? actual.tipoTexto},
         dificultad = ${b.dificultad ?? actual.dificultad},
         contexto = ${b.contexto ?? actual.contexto},
@@ -147,3 +151,5 @@ export const Items = {
     });
   },
 };
+
+

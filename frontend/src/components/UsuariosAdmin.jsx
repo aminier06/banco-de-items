@@ -167,7 +167,7 @@ export default function UsuariosAdmin({ users, onCreate, onUpdate, onDelete, onR
       {creando && (
         <FormUsuario
           titulo="Crear usuario"
-          inicial={{ nombre: "", correo: "", rol: "elaborador", area: "", password: "", areasAsignadas: null }}
+          inicial={{ nombre: "", correo: "", rol: "elaborador", area: "", password: Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 6).toUpperCase(), areasAsignadas: null }}
           onGuardar={async (form) => { await onCreate(form); setCreando(false); }}
           onCancelar={() => setCreando(false)}
         />

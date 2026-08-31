@@ -1,4 +1,4 @@
-﻿import { Hono } from "jsr:@hono/hono@4";
+import { Hono } from "jsr:@hono/hono@4";
 import { cors } from "jsr:@hono/hono@4/cors";
 import { autenticar } from "./auth.ts";
 import { authRoutes } from "./routes/auth.ts";
@@ -7,10 +7,11 @@ import { specsRoutes } from "./routes/specs.ts";
 import { itemsRoutes } from "./routes/items.ts";
 import { testsRoutes } from "./routes/tests.ts";
 import { auditRoutes } from "./routes/audit_routes.ts";
+import { auditRoutes } from "./routes/audit_routes.ts";
 import { adminRoutes } from "./routes/admin.ts";
 
-// El nombre de la función es "api"; todas las rutas deben ir prefijadas
-// con /api porque así las reenvía la pasarela de Supabase.
+// El nombre de la funci?n es "api"; todas las rutas deben ir prefijadas
+// con /api porque as? las reenv?a la pasarela de Supabase.
 const app = new Hono().basePath("/api");
 
 const origenesPermitidos = (Deno.env.get("CORS_ORIGIN") || "")
@@ -28,7 +29,7 @@ app.use(
 );
 
 // Igual que el middleware "autenticar" del backend en Express: siempre se
-// ejecuta y adjunta el usuario (o null) sin rechazar la petición por sí solo.
+// ejecuta y adjunta el usuario (o null) sin rechazar la petici?n por s? solo.
 app.use("*", autenticar);
 
 app.get("/health", (c) => c.json({ ok: true }));
@@ -39,6 +40,7 @@ app.route("/specs", specsRoutes);
 app.route("/items", itemsRoutes);
 app.route("/tests", testsRoutes);
 app.route("/audit", auditRoutes);
+app.route("/audit", auditRoutes);
 app.route("/admin", adminRoutes);
 
 app.onError((err, c) => {
@@ -47,4 +49,5 @@ app.onError((err, c) => {
 });
 
 Deno.serve(app.fetch);
+
 

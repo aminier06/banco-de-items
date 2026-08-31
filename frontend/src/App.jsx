@@ -13,7 +13,6 @@ import ArmarPrueba from "./components/ArmarPrueba.jsx";
 import TestPreviewModal from "./components/TestPreviewModal.jsx";
 import UsuariosAdmin from "./components/UsuariosAdmin.jsx";
 import AuditoriaLog from "./components/AuditoriaLog.jsx";
-import AuditoriaLog from "./components/AuditoriaLog.jsx";
 import ImportarItems from "./components/ImportarItems.jsx";
 import CambiarPasswordModal from "./components/CambiarPasswordModal.jsx";
 
@@ -322,7 +321,6 @@ export default function App() {
         )}
 
         {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
-          {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
           {tab === "usuarios" && isAdmin && (
           <UsuariosAdmin users={users} onCreate={crearUsuario} onUpdate={actualizarUsuario} onDelete={eliminarUsuario} onResetPassword={restablecerPassword} />
         )}
@@ -342,6 +340,8 @@ export default function App() {
     </div>
   );
 }
+
+
 
 
 

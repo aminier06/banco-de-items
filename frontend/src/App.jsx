@@ -56,7 +56,6 @@ export default function App() {
   const cambiarContexto = (nuevoNivel, nuevoGrado) => {
     setNivel(nuevoNivel);
     setGrado(nuevoGrado);
-    recargarTodo();
   };
   const [savingNote, setSavingNote] = useState("");
 
@@ -118,7 +117,7 @@ export default function App() {
 
   useEffect(() => {
     if (currentUser) recargarTodo();
-  }, [currentUser, recargarTodo]);
+  }, [currentUser, recargarTodo, nivel, grado]);
 
   const login = async (correo, password) => {
     const user = await api.login(correo, password);
@@ -349,6 +348,8 @@ export default function App() {
     </div>
   );
 }
+
+
 
 
 

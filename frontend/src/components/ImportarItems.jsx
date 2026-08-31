@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+﻿import React, { useState, useMemo } from "react";
 import { Download, UploadCloud, X, AlertTriangle, Check } from "lucide-react";
 import { AREAS } from "../lib/constants.js";
 import {
@@ -115,7 +115,7 @@ export default function ImportarItems({ specs, users, currentUser, onImportar })
     <div>
       <h1 className="f-display" style={{ fontSize: 24, marginBottom: 2 }}>Importar ítems</h1>
       <p style={{ color: "var(--ink-soft)", fontSize: 13.5, marginBottom: 16 }}>
-        Migra ítems desde un archivo Excel o CSV del banco anterior. Todos entran como <strong>borrador</strong>, listos para que el equipo técnico los revise de nuevo.
+        Migra ítems desde un archivo Excel o CSV del banco anterior. Todos entran como <strong>borrador</strong>, listos para que el Revisor los revise de nuevo.
       </p>
 
       <div className="bib-card" style={{ padding: 16, marginBottom: 16 }}>
@@ -195,3 +195,4 @@ export default function ImportarItems({ specs, users, currentUser, onImportar })
     </div>
   );
 }
+

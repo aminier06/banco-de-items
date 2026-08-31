@@ -1,4 +1,4 @@
-export const AREAS = [
+﻿export const AREAS = [
   { id: "lengua", nombre: "Lengua Española", abrev: "LE", color: "#1C3144" },
   { id: "ciencias_naturaleza", nombre: "Ciencias de la Naturaleza", abrev: "CN", color: "#3F6B4F" },
   { id: "ciencias_sociales", nombre: "Ciencias Sociales", abrev: "CS", color: "#8A4B2E" },
@@ -15,9 +15,10 @@ export const ESTADOS = {
 };
 export const ORDEN_ESTADOS = ["borrador", "en_revision", "aprobado", "rechazado"];
 
-export const ROL_LABELS = { elaborador: "Elaborador/a", revisor: "Equipo técnico", administrador: "Administrador/a" };
+export const ROL_LABELS = { elaborador: "Elaborador/a", revisor: "Revisor", administrador: "Administrador/a" };
 
 export const areaInfo = (id) => AREAS.find((a) => a.id === id);
 
 export const esTecnico = (rol) => rol === "revisor" || rol === "administrador";
 export const esAdmin = (rol) => rol === "administrador";
+

@@ -33,12 +33,13 @@ export const ROL_LABELS = {
 
 export const DIFICULTADES = ["Baja", "Media", "Alta"];
 
-export const ESTADOS = ["borrador", "en_revision", "aprobado", "rechazado"];
+export const ORDEN_ESTADOS = ["borrador", "en_revision", "aprobado", "rechazado"];
 
-export const ORDEN_ESTADOS = {
-  borrador: 0,
-  en_revision: 1,
-  aprobado: 2,
-  rechazado: 3,
+export const ESTADOS = {
+  borrador:    { label: "Borrador",    color: "#8a8a8a" },
+  en_revision: { label: "En revision", color: "#d4a017" },
+  aprobado:    { label: "Aprobado",    color: "#3f6b4f" },
+  rechazado:   { label: "Rechazado",   color: "#a23b3b" },
 };
+
 

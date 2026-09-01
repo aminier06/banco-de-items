@@ -1,4 +1,4 @@
-import Papa from "papaparse";
+﻿import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { AREAS, DIFICULTADES } from "./constants.js";
 
@@ -73,22 +73,22 @@ export function resolverAutor(valor, users, fallbackId) {
 }
 
 export const CAMPOS_IMPORTACION = [
-  { key: "area", label: "Área", requerido: true },
-  { key: "competencia", label: "Competencia (código o nombre)", requerido: false },
-  { key: "afirmacion", label: "Afirmación (código o texto)", requerido: false },
-  { key: "evidencia", label: "Evidencia (código o texto)", requerido: false },
-  { key: "tarea", label: "Tarea (código o texto)", requerido: false },
+  { key: "area", label: "Ãrea", requerido: true },
+  { key: "competencia", label: "Competencia (cÃ³digo o nombre)", requerido: false },
+  { key: "afirmacion", label: "AfirmaciÃ³n (cÃ³digo o texto)", requerido: false },
+  { key: "evidencia", label: "Evidencia (cÃ³digo o texto)", requerido: false },
+  { key: "tarea", label: "Tarea (cÃ³digo o texto)", requerido: false },
   { key: "dificultad", label: "Dificultad", requerido: false },
   { key: "tipoTexto", label: "Tipo de texto", requerido: false },
   { key: "contexto", label: "Contexto / texto base", requerido: false },
   { key: "enunciado", label: "Enunciado", requerido: true },
-  { key: "opcionA", label: "Opción A", requerido: true },
-  { key: "opcionB", label: "Opción B", requerido: true },
-  { key: "opcionC", label: "Opción C", requerido: true },
-  { key: "opcionD", label: "Opción D", requerido: true },
-  { key: "respuestaCorrecta", label: "Respuesta correcta (A–D)", requerido: true },
-  { key: "justificacionCorrecta", label: "Justificación de la respuesta", requerido: false },
-  { key: "justificacionDistractores", label: "Justificación de distractores", requerido: false },
+  { key: "opcionA", label: "OpciÃ³n A", requerido: true },
+  { key: "opcionB", label: "OpciÃ³n B", requerido: true },
+  { key: "opcionC", label: "OpciÃ³n C", requerido: true },
+  { key: "opcionD", label: "OpciÃ³n D", requerido: true },
+  { key: "respuestaCorrecta", label: "Respuesta correcta (Aâ€“D)", requerido: true },
+  { key: "justificacionCorrecta", label: "JustificaciÃ³n de la respuesta", requerido: false },
+  { key: "justificacionDistractores", label: "JustificaciÃ³n de distractores", requerido: false },
   { key: "autor", label: "Autor/a original", requerido: false },
 ];
 
@@ -128,15 +128,15 @@ export function descargarPlantillaCSV() {
     dificultad: "Baja",
     tipoTexto: "narrativo",
     contexto: "Texto de hasta 350 palabras sobre el que se basa la pregunta.",
-    enunciado: "¿Qué información del texto permite responder la pregunta?",
-    opcionA: "Opción correcta",
+    enunciado: "Â¿QuÃ© informaciÃ³n del texto permite responder la pregunta?",
+    opcionA: "OpciÃ³n correcta",
     opcionB: "Distractor 1",
     opcionC: "Distractor 2",
     opcionD: "Distractor 3",
     respuestaCorrecta: "A",
-    justificacionCorrecta: "Explica por qué la opción A es correcta.",
-    justificacionDistractores: "Explica por qué B, C y D son incorrectas.",
-    autor: "Nombre de quien elaboró el ítem originalmente",
+    justificacionCorrecta: "Explica por quÃ© la opciÃ³n A es correcta.",
+    justificacionDistractores: "Explica por quÃ© B, C y D son incorrectas.",
+    autor: "Nombre de quien elaborÃ³ el Ã­tem originalmente",
   };
   const headers = CAMPOS_IMPORTACION.map((c) => c.key);
   const csvCell = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;

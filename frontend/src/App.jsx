@@ -325,7 +325,7 @@ export default function App() {
         )}
 
         {tab === "importar" && isAdmin && (
-          <ImportarItems specs={specs} users={users} currentUser={currentUser} onImportar={importarItems} />
+          <ImportarItems specs={specs} users={users} currentUser={currentUser} onImportar={importarItems} nivelActivo={nivel} gradoActivo={grado} />
         )}
 
         {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
@@ -348,6 +348,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 

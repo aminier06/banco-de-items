@@ -75,6 +75,8 @@ export default function ImportarItems({ specs, users, currentUser, onImportar })
         evidenciaId: clasif.evidenciaId,
         tareaId: clasif.tareaId,
         competenciaId: clasif.competenciaId,
+        nivel: val("nivel") || nivelActivo || "secundaria",
+        grado: val("grado") || gradoActivo || "sexto",
         dificultad: dificultadDetectada || "Media",
         tipoTexto: val("tipoTexto"),
         contexto: val("contexto"),

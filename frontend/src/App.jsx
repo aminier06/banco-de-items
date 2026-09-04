@@ -61,7 +61,7 @@ export default function App() {
   };
   const [savingNote, setSavingNote] = useState("");
 
-  const isRevisor = currentUser?.rol === "Revisor/a";
+  const isRevisor = currentUser?.rol === "revisor";
   const isAdmin = currentUser?.rol === "administrador";
   const esTecnico = isRevisor || isAdmin;
 
@@ -357,6 +357,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 

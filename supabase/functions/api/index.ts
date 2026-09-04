@@ -6,6 +6,7 @@ import { usersRoutes } from "./routes/users.ts";
 import { specsRoutes } from "./routes/specs.ts";
 import { itemsRoutes } from "./routes/items.ts";
 import { testsRoutes } from "./routes/tests.ts";
+import { pilotajesRoutes } from "./routes/pilotajes.ts";
 import { auditRoutes } from "./routes/audit_routes.ts";
 import { adminRoutes } from "./routes/admin.ts";
 
@@ -38,6 +39,7 @@ app.route("/users", usersRoutes);
 app.route("/specs", specsRoutes);
 app.route("/items", itemsRoutes);
 app.route("/tests", testsRoutes);
+app.route("/pilotajes", pilotajesRoutes);
 app.route("/audit", auditRoutes);
 app.route("/admin", adminRoutes);
 
@@ -47,6 +49,7 @@ app.onError((err, c) => {
 });
 
 Deno.serve(app.fetch);
+
 
 
 

@@ -35,7 +35,7 @@ export const AREAS = [
 export const AREA_IDS = AREAS.map((a) => a.id);
 
 export const DIFICULTADES = ["Baja", "Media", "Alta"];
-export const ESTADOS = ["borrador", "en_revision", "aprobado", "rechazado"];
+export const ESTADOS = ["borrador", "en_revision", "aprobado", "apto_para_pilotaje", "disponible", "descartado_pilotaje", "retirado", "liberado", "rechazado"];
 
 export const esTecnico = (rol: string) => rol === "revisor" || rol === "administrador";
 export const esAdmin = (rol: string) => rol === "administrador";

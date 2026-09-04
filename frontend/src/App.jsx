@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect, useCallback } from "react";
-import { LayoutDashboard, Library, ClipboardList, FileText, Users, UploadCloud, LogOut, Check, KeyRound, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Library, ClipboardList, FileText, Users, UploadCloud, LogOut, Check, KeyRound, ShieldCheck, FlaskConical } from "lucide-react";
 import { api } from "./api.js";
 import { areaInfo, ROL_LABELS } from "./lib/constants.js";
 import { GlobalStyles } from "./components/shared.jsx";
@@ -12,6 +12,7 @@ import SpecsEditor from "./components/SpecsEditor.jsx";
 import ArmarPrueba from "./components/ArmarPrueba.jsx";
 import TestPreviewModal from "./components/TestPreviewModal.jsx";
 import UsuariosAdmin from "./components/UsuariosAdmin.jsx";
+import PilotajePanel from "./components/PilotajePanel.jsx";
 import AuditoriaLog from "./components/AuditoriaLog.jsx";
 import ContextoSelector from "./components/ContextoSelector.jsx";
 import ImportarItems from "./components/ImportarItems.jsx";
@@ -25,9 +26,10 @@ export default function App() {
   const [items, setItems] = useState([]);
   const [specs, setSpecs] = useState({});
   const [tests, setTests] = useState([]);
+  const [pilotajes, setPilotajes] = useState([]);
   const [users, setUsers] = useState([]);
 
-  const TABS_VALIDOS = ["dashboard", "banco", "specs", "armar", "importar", "usuarios", "auditoria"];
+  const TABS_VALIDOS = ["dashboard", "banco", "specs", "armar", "pilotaje", "importar", "usuarios", "auditoria"];
   const leerTabDesdeHash = () => {
     const h = window.location.hash.replace("#", "");
     return TABS_VALIDOS.includes(h) ? h : "dashboard";
@@ -100,15 +102,17 @@ export default function App() {
   const recargarTodo = useCallback(async () => {
     setCargandoDatos(true);
     try {
-      const [itemsRes, specsRes, testsRes, usersRes] = await Promise.all([
+      const [itemsRes, specsRes, testsRes, pilotajesRes, usersRes] = await Promise.all([
         api.listItems({ nivel, grado }),
         api.getSpecs(nivel, grado),
         api.listTests(),
+          api.get(`/pilotajes?nivel=${nivel}&grado=${grado}`).then(d => d.pilotajes || []),
         api.listUsers().catch(() => []), // solo admin puede listar; otros roles reciben 403
       ]);
       setItems(itemsRes);
       setSpecs(specsRes);
       setTests(testsRes);
+      setPilotajes(pilotajesRes);
       setUsers(usersRes);
     } finally {
       setCargandoDatos(false);
@@ -208,6 +212,9 @@ export default function App() {
     await api.deleteUser(id);
     await recargarTodo();
   };
+  const crearPilotaje = async (payload) => { const d = await api.post("/pilotajes", payload); await recargarTodo(); return d.pilotaje; };
+  const resultadoPilotaje = async (itemId, pilotajeId, aprobado, params, comentario) => { await api.post(`/pilotajes/${pilotajeId}/items/${itemId}/resultado`, { aprobado, params, comentario }); await recargarTodo(); };
+  const eliminarPilotaje = async (id) => { await api.delete(`/pilotajes/${id}`); await recargarTodo(); };
   const restablecerPassword = async (id, password) => api.resetPassword(id, password);
   const cambiarMiPassword = async (actual, nueva) => api.changeMyPassword(actual, nueva);
 
@@ -256,7 +263,8 @@ export default function App() {
           { id: "dashboard", label: "Panel general", icon: LayoutDashboard },
           { id: "banco", label: "Banco de ítems", icon: Library },
           { id: "specs", label: "Especificaciones", icon: ClipboardList },
-          ...(esTecnico ? [{ id: "armar", label: "Armar prueba", icon: FileText }] : []),
+          ...(esTecnico ? [{ id: "armar", label: "Armar prueba", icon: FileText },
+        { id: "pilotaje", label: "Pilotaje", icon: FlaskConical }] : []),
           ...(isAdmin ? [{ id: "importar", label: "Importar ítems", icon: UploadCloud }] : []),
           ...(isAdmin ? [{ id: "usuarios", label: "Usuarios", icon: Users }, { id: "auditoria", label: "Auditoria", icon: ShieldCheck }] : []),
         ].map((t) => (
@@ -328,7 +336,8 @@ export default function App() {
           <ImportarItems specs={specs} users={users} currentUser={currentUser} onImportar={importarItems} nivelActivo={nivel} gradoActivo={grado} />
         )}
 
-        {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
+        {tab === "pilotaje" && esTecnico && <PilotajePanel pilotajes={pilotajes} items={items} nivel={nivel} grado={grado} isAdmin={isAdmin} esTecnico={esTecnico} onCrear={crearPilotaje} onResultado={resultadoPilotaje} onEliminar={eliminarPilotaje} />}
+          {tab === "auditoria" && isAdmin && <AuditoriaLog api={api} />}
           {tab === "usuarios" && isAdmin && (
           <UsuariosAdmin users={users} onCreate={crearUsuario} onUpdate={actualizarUsuario} onDelete={eliminarUsuario} onResetPassword={restablecerPassword} />
         )}
@@ -348,6 +357,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 

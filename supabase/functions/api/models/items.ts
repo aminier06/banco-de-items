@@ -23,6 +23,8 @@ function mapRow(row: any) {
     justificacionDistractores: row.justificacion_distractores,
     estado: row.estado,
     historial: parseJsonb(row.historial),
+    paramsPsicometricos: parseJsonb(row.params_psicometricos),
+    exposicionCount: row.exposicion_count || 0,
     autorId: row.autor_id,
     autorNombre: row.autor_nombre || null,
     createdAt: row.created_at,
@@ -114,6 +116,15 @@ export const Items = {
     return this.findById(id);
   },
 
+  async setParamsPsicometricos(id: string, params: any) {
+    await sql`UPDATE items SET params_psicometricos = ${JSON.stringify(params)}::jsonb, updated_at = now() WHERE id = ${id}`;
+  },
+
+  async incrementarExposicion(ids: string[], delta: number) {
+    if (ids.length === 0) return;
+    await sql`UPDATE items SET exposicion_count = exposicion_count + ${delta} WHERE id = ANY(${sql.array(ids)})`;
+  },
+
   async remove(id: string) {
     const result = await sql`DELETE FROM items WHERE id = ${id}`;
     return result.count > 0;
@@ -141,6 +152,7 @@ export const Items = {
     });
   },
 };
+
 
 
 

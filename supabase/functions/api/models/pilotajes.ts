@@ -1,100 +1,49 @@
-import { Hono } from "jsr:@hono/hono@4";
-import { Pilotajes } from "../models/pilotajes.ts";
-import { Items } from "../models/items.ts";
-import { requerirSesion, requerirTecnico, requerirAdmin } from "../auth.ts";
-import { AREA_IDS, NIVEL_IDS, GRADO_IDS } from "../constants.ts";
-import { registrar, obtenerIp } from "../audit.ts";
+import { sql } from "../db.ts";
+import { parseJsonb } from "../jsonb.ts";
 
-export const pilotajesRoutes = new Hono();
-pilotajesRoutes.use("*", requerirSesion);
+function mapRow(row: any) {
+  if (!row) return null;
+  return {
+    id: row.id, nombre: row.nombre, nivel: row.nivel, grado: row.grado,
+    area: row.area, convocatoria: row.convocatoria, muestraN: row.muestra_n,
+    fechaAplicacion: row.fecha_aplicacion, estado: row.estado,
+    itemIds: parseJsonb(row.item_ids), notas: row.notas,
+    creadoPorId: row.creado_por_id, createdAt: row.created_at, updatedAt: row.updated_at,
+  };
+}
 
-// Listar pilotajes del contexto actual
-pilotajesRoutes.get("/", async (c) => {
-  const nivel = c.req.query("nivel") || undefined;
-  const grado = c.req.query("grado") || undefined;
-  return c.json({ pilotajes: await Pilotajes.list(nivel, grado) });
-});
-
-// Crear pilotaje (solo equipo tecnico)
-pilotajesRoutes.post("/", requerirTecnico, async (c) => {
-  const user = c.get("user");
-  const b = await c.req.json().catch(() => ({}));
-
-  if (!b.nombre?.trim()) return c.json({ error: "El pilotaje necesita un nombre." }, 400);
-  if (!AREA_IDS.includes(b.area)) return c.json({ error: "Area invalida." }, 400);
-  if (!NIVEL_IDS.includes(b.nivel)) return c.json({ error: "Nivel invalido." }, 400);
-  if (!GRADO_IDS.includes(b.grado)) return c.json({ error: "Grado invalido." }, 400);
-  if (!Array.isArray(b.itemIds) || b.itemIds.length === 0) return c.json({ error: "Selecciona al menos un item." }, 400);
-
-  // Solo items en estado apto_para_pilotaje del area/nivel/grado indicados
-  const items = await Items.findByIds(b.itemIds);
-  const invalidos = items.filter((i: any) => i.estado !== "apto_para_pilotaje");
-  if (invalidos.length > 0) return c.json({ error: `${invalidos.length} item(s) no tienen estado "apto para pilotaje".` }, 400);
-
-  const pilotaje = await Pilotajes.create(b, user.id);
-  await registrar({
-    accion: "CREAR_PRUEBA", entidad: "pilotajes", entidad_id: pilotaje.id,
-    usuario: { id: user.id, nombre: user.nombre, correo: user.correo },
-    detalle: { nombre: pilotaje.nombre, area: pilotaje.area, items: b.itemIds.length },
-    ip: obtenerIp(c),
-  });
-  return c.json({ pilotaje }, 201);
-});
-
-// Actualizar pilotaje (nombre, notas, muestra, fecha, estado)
-pilotajesRoutes.put("/:id", requerirTecnico, async (c) => {
-  const id = c.req.param("id");
-  if (!(await Pilotajes.findById(id))) return c.json({ error: "Pilotaje no encontrado." }, 404);
-  const b = await c.req.json().catch(() => ({}));
-  const pilotaje = await Pilotajes.update(id, b);
-  return c.json({ pilotaje });
-});
-
-// Registrar resultado psicometrico de un item dentro de un pilotaje
-// y mover el item a "disponible" o "descartado_pilotaje"
-pilotajesRoutes.post("/:id/items/:itemId/resultado", requerirAdmin, async (c) => {
-  const user = c.get("user");
-  const { id, itemId } = c.req.param();
-  const pilotaje = await Pilotajes.findById(id);
-  if (!pilotaje) return c.json({ error: "Pilotaje no encontrado." }, 404);
-  if (!pilotaje.itemIds.includes(itemId)) return c.json({ error: "El item no pertenece a este pilotaje." }, 400);
-
-  const item = await Items.findById(itemId);
-  if (!item) return c.json({ error: "Item no encontrado." }, 404);
-
-  const b = await c.req.json().catch(() => ({}));
-  const { aprobado, params } = b;
-
-  // Guardar parametros psicometricos
-  await Items.setParamsPsicometricos(itemId, params || {});
-
-  // Mover el item al estado que corresponde
-  const nuevoEstado = aprobado ? "disponible" : "descartado_pilotaje";
-  const historial = [
-    ...(item.historial || []),
-    {
-      fecha: new Date().toISOString().slice(0, 10),
-      autor: user.nombre,
-      accion: aprobado ? "Calibrado y disponible para uso operativo." : "Descartado tras analisis psicometrico.",
-      comentario: b.comentario || undefined,
-    },
-  ];
-  await Items.setEstado(itemId, nuevoEstado, historial);
-
-  await registrar({
-    accion: aprobado ? "APROBAR_ITEM" : "RECHAZAR_ITEM",
-    entidad: "items", entidad_id: itemId,
-    usuario: { id: user.id, nombre: user.nombre, correo: user.correo },
-    detalle: { pilotaje: id, estado: nuevoEstado, params },
-    ip: obtenerIp(c),
-  });
-  return c.json({ ok: true, estado: nuevoEstado });
-});
-
-// Eliminar pilotaje
-pilotajesRoutes.delete("/:id", requerirAdmin, async (c) => {
-  const id = c.req.param("id");
-  const eliminado = await Pilotajes.remove(id);
-  if (!eliminado) return c.json({ error: "Pilotaje no encontrado." }, 404);
-  return c.body(null, 204);
-});
+export const Pilotajes = {
+  async list(nivel?: string, grado?: string) {
+    const rows = nivel && grado
+      ? await sql`SELECT * FROM pilotajes WHERE nivel = ${nivel} AND grado = ${grado} ORDER BY created_at DESC`
+      : await sql`SELECT * FROM pilotajes ORDER BY created_at DESC`;
+    return rows.map(mapRow);
+  },
+  async findById(id: string) {
+    const rows = await sql`SELECT * FROM pilotajes WHERE id = ${id}`;
+    return mapRow(rows[0]);
+  },
+  async create(b: any, creadoPorId: string) {
+    const id = crypto.randomUUID();
+    await sql`
+      INSERT INTO pilotajes (id, nombre, nivel, grado, area, convocatoria, muestra_n, fecha_aplicacion, item_ids, notas, creado_por_id)
+      VALUES (${id}, ${b.nombre}, ${b.nivel}, ${b.grado}, ${b.area}, ${b.convocatoria || null},
+        ${b.muestraN || null}, ${b.fechaAplicacion || null},
+        ${JSON.stringify(b.itemIds || [])}::jsonb, ${b.notas || null}, ${creadoPorId})
+    `;
+    return this.findById(id);
+  },
+  async update(id: string, b: any) {
+    await sql`
+      UPDATE pilotajes SET nombre = ${b.nombre}, convocatoria = ${b.convocatoria || null},
+        muestra_n = ${b.muestraN || null}, fecha_aplicacion = ${b.fechaAplicacion || null},
+        estado = ${b.estado || "en_proceso"}, notas = ${b.notas || null}, updated_at = now()
+      WHERE id = ${id}
+    `;
+    return this.findById(id);
+  },
+  async remove(id: string) {
+    const result = await sql`DELETE FROM pilotajes WHERE id = ${id}`;
+    return result.count > 0;
+  },
+};

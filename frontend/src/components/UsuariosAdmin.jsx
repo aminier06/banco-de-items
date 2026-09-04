@@ -90,8 +90,7 @@ function FormUsuario({ inicial, onGuardar, onCancelar, titulo, onResetPassword }
                 setGuardando(true);
                 try {
                   const res = await onResetPassword(inicial.id, form.nuevaPassword || undefined);
-                  console.log("resultado reset:", res);
-                  const pwd = res?.password || form.nuevaPassword;
+                  const pwd = res || form.nuevaPassword;
                   setPasswordGenerado(pwd);
                 } finally { setGuardando(false); }
               }}>

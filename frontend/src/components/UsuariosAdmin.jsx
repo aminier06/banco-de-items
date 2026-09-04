@@ -199,7 +199,9 @@ export default function UsuariosAdmin({ users, onCreate, onUpdate, onDelete, onR
                   </div>
                   {passwordMostrado[u.id] && (
                     <Banner tone="amber" style={{ marginTop: 6 }}>
-                      Contrasena temporal: <strong>{passwordMostrado[u.id]}</strong> — comparte esto con la persona y pide que la cambie de inmediato.
+                      Contrasena temporal: <strong>{passwordMostrado[u.id]}</strong> &nbsp;
+                      <button className="bib-btn bib-btn-ghost" style={{ padding: "2px 8px", fontSize: 11 }} onClick={() => navigator.clipboard.writeText(passwordMostrado[u.id])}>Copiar</button>
+                      — comparte esto con la persona y pide que la cambie de inmediato.
                     </Banner>
                   )}
                 </div>

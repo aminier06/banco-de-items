@@ -5,11 +5,12 @@ import { Banner } from "./shared.jsx";
 
 const ROLES_LABEL = { elaborador: "Elaborador/a", revisor: "Revisor/a", administrador: "Administrador/a" };
 
-function FormUsuario({ inicial, onGuardar, onCancelar, titulo }) {
+function FormUsuario({ inicial, onGuardar, onCancelar, titulo, onResetPassword }) {
   const [form, setForm] = useState(inicial);
   const [error, setError] = useState("");
   const [guardando, setGuardando] = useState(false);
   const [verPassword, setVerPassword] = useState(false);
+  const [passwordGenerado, setPasswordGenerado] = useState("");
 
   const esNuevo = !inicial.id;
   const esElaborador = form.rol === "elaborador";
@@ -67,7 +68,7 @@ function FormUsuario({ inicial, onGuardar, onCancelar, titulo }) {
             </select>
           </div>
         )}
-        {esNuevo && (
+        {esNuevo ? (
           <div>
             <label className="bib-label">Contrasena inicial</label>
             <div style={{ display: "flex", gap: 6 }}>
@@ -76,6 +77,32 @@ function FormUsuario({ inicial, onGuardar, onCancelar, titulo }) {
                 {verPassword ? <EyeOff size={14} /> : <Eye size={14} />}
               </button>
             </div>
+          </div>
+        ) : (
+          <div>
+            <label className="bib-label">Nueva contrasena (dejar en blanco para generar automaticamente)</label>
+            <div style={{ display: "flex", gap: 6 }}>
+              <input className="bib-input" type={verPassword ? "text" : "password"} value={form.nuevaPassword || ""} onChange={(e) => setForm({ ...form, nuevaPassword: e.target.value })} placeholder="Nueva contrasena o dejar vacio para generar..." style={{ flex: 1 }} />
+              <button className="bib-btn bib-btn-ghost" onClick={() => setVerPassword(!verPassword)} style={{ padding: "0 8px" }}>
+                {verPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+              </button>
+              <button className="bib-btn bib-btn-ghost" disabled={guardando} onClick={async () => {
+                setGuardando(true);
+                try {
+                  const res = await onResetPassword(inicial.id, form.nuevaPassword || undefined);
+                  const pwd = res?.password || form.nuevaPassword;
+                  setPasswordGenerado(pwd);
+                } finally { setGuardando(false); }
+              }}>
+                Restablecer
+              </button>
+            </div>
+            {passwordGenerado && (
+              <div style={{ marginTop: 8, padding: "8px 10px", background: "rgba(63,107,79,0.1)", borderRadius: 4, display: "flex", alignItems: "center", gap: 10, fontSize: 13 }}>
+                Nueva contrasena: <strong>{passwordGenerado}</strong>
+                <button className="bib-btn bib-btn-ghost" style={{ padding: "2px 8px", fontSize: 11 }} onClick={() => { navigator.clipboard.writeText(passwordGenerado); }}>Copiar</button>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -181,6 +208,7 @@ export default function UsuariosAdmin({ users, onCreate, onUpdate, onDelete, onR
                 titulo={`Editar: ${u.nombre}`}
                 inicial={{ ...u, password: "" }}
                 onGuardar={async (form) => { await onUpdate(u.id, form); setEditandoId(null); }}
+                onResetPassword={onResetPassword}
                 onCancelar={() => setEditandoId(null)}
               />
             ) : (

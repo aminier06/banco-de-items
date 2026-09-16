@@ -51,11 +51,18 @@ export default function BancoItems({
           <h1 className="f-display" style={{ fontSize: 24, marginBottom: 2 }}>Banco de ítems</h1>
           <p style={{ color: "var(--ink-soft)", fontSize: 13.5 }}>{filtrados.length} de {items.length} ítem(s)</p>
         </div>
-        {puedeCrearEn(areaParaNuevo) && (
-          <button className="bib-btn bib-btn-primary" onClick={() => onNuevo(areaParaNuevo)}>
-            <Plus size={15} /> Nuevo ítem
-          </button>
-        )}
+        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+          {puedeCrearEn(areaParaNuevo) && (
+            <button className="bib-btn bib-btn-primary" onClick={() => onNuevo(areaParaNuevo)}>
+              <Plus size={15} /> Nuevo item
+            </button>
+          )}
+          {seleccionados.size > 0 && (
+            <button className="bib-btn bib-btn-ghost" onClick={descargarSeleccionados} disabled={descargando}>
+              <Download size={14} /> {descargando ? "Generando..." : "Descargar seleccionados (" + seleccionados.size + ")"}
+            </button>
+          )}
+        </div>
       </div>
 
       {sinClasificarTotal > 0 && (

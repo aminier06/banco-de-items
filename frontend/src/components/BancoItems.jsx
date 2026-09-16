@@ -1,5 +1,6 @@
 ﻿import React, { useState } from "react";
-import { Plus, Search, Filter, ClipboardList, Pencil, Eye, Send, Trash2 } from "lucide-react";
+import { generarDocxItems, descargarBlob } from "../lib/generarDocxItems.js";
+import { Plus, Search, Filter, ClipboardList, Pencil, Eye, Send, Trash2, Download, Square, CheckSquare } from "lucide-react";
 import { AREAS, ESTADOS, ORDEN_ESTADOS } from "../lib/constants.js";
 import { StampBadge, AreaTag, Banner } from "./shared.jsx";
 
@@ -12,6 +13,25 @@ export default function BancoItems({
   const [filtroEstado, setFiltroEstado] = useState("todos");
   const [soloSinClasificar, setSoloSinClasificar] = useState(false);
   const [busqueda, setBusqueda] = useState("");
+  const [seleccionados, setSeleccionados] = useState(new Set());
+  const [descargando, setDescargando] = useState(false);
+
+  const toggleSeleccion = (id) => setSeleccionados((prev) => {
+    const next = new Set(prev);
+    next.has(id) ? next.delete(id) : next.add(id);
+    return next;
+  });
+
+  const descargarSeleccionados = async () => {
+    setDescargando(true);
+    try {
+      const itemsDesc = filtrados.filter((i) => seleccionados.has(i.id));
+      const blob = await generarDocxItems(itemsDesc, specs);
+      descargarBlob(blob, `items_seleccionados_${new Date().toISOString().slice(0,10)}.docx`);
+    } finally {
+      setDescargando(false);
+    }
+  };
 
   const filtrados = items.filter((i) => {
     if (filtroArea !== "todas" && i.area !== filtroArea) return false;
@@ -91,7 +111,11 @@ export default function BancoItems({
           const ev = af?.evidencias?.find((e) => e.id === item.evidenciaId);
           const tarea = ev?.tareas?.find((t) => t.id === item.tareaId);
           return (
-            <div key={item.id} className="bib-card" style={{ padding: 14 }}>
+            <div key={item.id} className="bib-card" style={{ padding: 14, outline: seleccionados.has(item.id) ? "2px solid var(--navy)" : "none" }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, cursor: "pointer", fontSize: 12.5, color: "var(--ink-soft)" }}>
+                <input type="checkbox" checked={seleccionados.has(item.id)} onChange={() => toggleSeleccion(item.id)} />
+                Seleccionar para descargar
+              </label>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 12, marginBottom: 8, flexWrap: "wrap" }}>
                 <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
                   <StampBadge estado={item.estado} />
@@ -149,4 +173,5 @@ export default function BancoItems({
     </div>
   );
 }
+
 

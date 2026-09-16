@@ -64,9 +64,11 @@ export default function App() {
   };
   const [savingNote, setSavingNote] = useState("");
 
-  const isRevisor = currentUser?.rol === "revisor";
+  const rolActivo = rolSimulado || currentUser?.rol;
+  const isRevisor = rolActivo === "revisor";
+  const isDirector = rolActivo === "director_tecnico";
   const isAdmin = currentUser?.rol === "administrador";
-  const esTecnico = isRevisor || isAdmin;
+  const esTecnico = isRevisor || isDirector || isAdmin;
 
   // Si la pestaña restaurada desde la URL no está disponible para este rol
   // (ej. alguien comparte un enlace a "#usuarios" con un elaborador), vuelve

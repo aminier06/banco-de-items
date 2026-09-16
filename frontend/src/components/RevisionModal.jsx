@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { CheckCircle, XCircle, RotateCcw } from "lucide-react";
 import { ModalShell } from "./shared.jsx";
 
@@ -38,7 +38,7 @@ export default function RevisionModal({ item, currentUser, esDirector, onClose, 
       ]
     : [
         { id: "aprobar", label: "Aprobar y enviar al Director Tecnico", color: "var(--green)", icono: <CheckCircle size={14} />, desc: "El item pasa a revision del Director Tecnico." },
-        { id: "rechazar", label: "Rechazar", color: "var(--red)", icono: <XCircle size={14} />, desc: "El item vuelve al elaborador con tu comentario." },
+        { id: "rechazar", label: "Devolver al elaborador con observaciones", color: "var(--amber)", icono: <RotateCcw size={14} />, desc: "El item vuelve al elaborador en estado borrador con tu comentario." },
       ];
 
   return (
@@ -110,3 +110,4 @@ export default function RevisionModal({ item, currentUser, esDirector, onClose, 
     </ModalShell>
   );
 }
+

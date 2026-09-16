@@ -141,14 +141,12 @@ export default function BancoItems({
               )}
               <p style={{ fontSize: 14, fontWeight: 500, marginBottom: 4 }}>{item.enunciado}</p>
               {af && (
-                  </div>
-                ) : null;
                 <p style={{ fontSize: 12, color: "var(--ink-soft)", marginBottom: 10 }}>
                   {comp?.nombre ? `${comp.nombre} · ` : ""}{af.texto} {ev ? `→ ${ev.texto}` : ""} {tarea ? `→ ${tarea.texto}` : ""}
                 </p>
               )}
               {(item.estado === "devuelto" || item.estado === "rechazado") && item.historial?.slice().reverse().find(h => h.comentario) && (
-                <div style={{ marginTop: 6, marginBottom: 8, padding: "6px 10px", background: "rgba(230,81,0,0.08)", borderLeft: "3px solid #e65100", borderRadius: 3, fontSize: 12, color: "#b84000" }}>
+                <div style={{ margin: "6px 0 8px", padding: "6px 10px", background: "rgba(230,81,0,0.08)", borderLeft: "3px solid #e65100", borderRadius: 3, fontSize: 12, color: "#b84000" }}>
                   <strong>Obs. del revisor:</strong> {item.historial.slice().reverse().find(h => h.comentario).comentario}
                 </div>
               )}
@@ -187,7 +185,6 @@ export default function BancoItems({
     </div>
   );
 }
-
 
 
 

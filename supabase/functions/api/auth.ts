@@ -6,9 +6,9 @@ const JWT_SECRET = Deno.env.get("JWT_SECRET");
 const JWT_EXPIRES_IN = Deno.env.get("JWT_EXPIRES_IN") || "8h";
 
 if (!JWT_SECRET) {
-  // Falla rápido: nunca arrancar con un secreto vacío.
+  // Falla r?pido: nunca arrancar con un secreto vac?o.
   throw new Error(
-    "Falta el secreto JWT_SECRET. Configúralo con: supabase secrets set JWT_SECRET=\"...\""
+    "Falta el secreto JWT_SECRET. Config?ralo con: supabase secrets set JWT_SECRET=\"...\""
   );
 }
 
@@ -17,7 +17,7 @@ export function firmarToken(user: { id: string; rol: string }) {
 }
 
 // Adjunta c.get("user") (registro completo y actualizado de la base de
-// datos) si el token es válido. No rechaza la petición por sí solo: eso lo
+// datos) si el token es v?lido. No rechaza la petici?n por s? solo: eso lo
 // hacen los middlewares de abajo, para diferenciar 401 de 403.
 export async function autenticar(c: any, next: any) {
   const header = c.req.header("Authorization") || "";
@@ -44,7 +44,16 @@ export async function requerirTecnico(c: any, next: any) {
   const user = c.get("user");
   if (!user) return c.json({ error: "No autenticado." }, 401);
   if (!esTecnico(user.rol)) {
-    return c.json({ error: "Requiere rol de equipo técnico o administrador." }, 403);
+    return c.json({ error: "Requiere rol de equipo t?cnico o administrador." }, 403);
+  }
+  await next();
+}
+
+export async function requerirDirectorTecnico(c: any, next: any) {
+  const user = c.get("user");
+  if (!user) return c.json({ error: "No autenticado." }, 401);
+  if (!["director_tecnico", "administrador"].includes(user.rol)) {
+    return c.json({ error: "Requiere rol de Director Tecnico o administrador." }, 403);
   }
   await next();
 }
@@ -59,3 +68,4 @@ export async function requerirAdmin(c: any, next: any) {
 }
 
 export { toPublic as userPublico };
+

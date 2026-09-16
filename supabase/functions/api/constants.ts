@@ -1,4 +1,4 @@
-export const ROLES = ["elaborador", "revisor", "administrador"];
+export const ROLES = ["elaborador", "revisor", "director_tecnico", "administrador"];
 
 export const NIVELES = [
   { id: "primaria", nombre: "Primaria" },
@@ -35,7 +35,9 @@ export const AREAS = [
 export const AREA_IDS = AREAS.map((a) => a.id);
 
 export const DIFICULTADES = ["Baja", "Media", "Alta"];
-export const ESTADOS = ["borrador", "en_revision", "aprobado", "apto_para_pilotaje", "disponible", "descartado_pilotaje", "retirado", "liberado", "rechazado"];
+export const ESTADOS = ["borrador", "en_revision", "revisado", "aprobado", "apto_para_pilotaje", "disponible", "descartado_pilotaje", "retirado", "liberado", "rechazado"];
 
-export const esTecnico = (rol: string) => rol === "revisor" || rol === "administrador";
+export const esTecnico = (rol: string) => ["revisor", "director_tecnico", "administrador"].includes(rol);
+export const esDirectorTecnico = (rol: string) => rol === "director_tecnico" || rol === "administrador";
 export const esAdmin = (rol: string) => rol === "administrador";
+

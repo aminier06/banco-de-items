@@ -8,6 +8,7 @@ import Dashboard from "./components/Dashboard.jsx";
 import BancoItems from "./components/BancoItems.jsx";
 import ItemEditorModal from "./components/ItemEditorModal.jsx";
 import RevisionModal from "./components/RevisionModal.jsx";
+import ItemPreviewModal from "./components/ItemPreviewModal.jsx";
 import SpecsEditor from "./components/SpecsEditor.jsx";
 import ArmarPrueba from "./components/ArmarPrueba.jsx";
 import TestPreviewModal from "./components/TestPreviewModal.jsx";
@@ -51,6 +52,8 @@ export default function App() {
   }, []);
   const [editingItem, setEditingItem] = useState(null);
   const [reviewingItem, setReviewingItem] = useState(null);
+  const [previewItem, setPreviewItem] = useState(null);
+  const [rolSimulado, setRolSimulado] = useState(null);
   const [previewTest, setPreviewTest] = useState(null);
   const [mostrarCambioPassword, setMostrarCambioPassword] = useState(false);
   const [nivel, setNivel] = useState("secundaria");
@@ -146,7 +149,11 @@ export default function App() {
     !!currentUser && (esTecnico || (item.autorId === currentUser.id && (item.estado === "borrador" || item.estado === "rechazado")));
   const puedeEnviar = (item) =>
     !!currentUser && item.autorId === currentUser.id && (item.estado === "borrador" || item.estado === "rechazado");
-  const puedeRevisarItem = (item) => esTecnico && item.estado === "en_revision";
+  const puedeRevisarItem = (item) => {
+    if (isDirector || (isAdmin && !rolSimulado)) return item.estado === "revisado";
+    if (isRevisor) return item.estado === "en_revision";
+    return false;
+  };
   const puedeCrearEn = (areaId) => !!currentUser && (esTecnico || currentUser.area === areaId);
 
   /* ---------- mutaciones de ítems ---------- */
@@ -273,7 +280,18 @@ export default function App() {
           </div>
         ))}
 
-        <ContextoSelector nivel={nivel} grado={grado} onChange={cambiarContexto} />
+        {isAdmin && (
+            <div style={{ padding: "8px 12px", background: "rgba(255,255,255,0.06)", borderRadius: 6, marginBottom: 8 }}>
+              <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>Vista como</div>
+              <select value={rolSimulado || ""} onChange={e => setRolSimulado(e.target.value || null)} style={{ width: "100%", background: "rgba(255,255,255,0.12)", color: "#fff", border: "1px solid rgba(255,255,255,0.2)", borderRadius: 4, padding: "4px 6px", fontSize: 12 }}>
+                <option value="" style={{ background: "#1c3144" }}>Administrador/a (real)</option>
+                <option value="director_tecnico" style={{ background: "#1c3144" }}>Director/a Tecnico/a</option>
+                <option value="revisor" style={{ background: "#1c3144" }}>Revisor/a</option>
+                <option value="elaborador" style={{ background: "#1c3144" }}>Elaborador/a</option>
+              </select>
+            </div>
+          )}
+          <ContextoSelector nivel={nivel} grado={grado} onChange={cambiarContexto} />
           <div style={{ marginTop: "auto", paddingTop: 14, borderTop: "1px solid rgba(255,255,255,0.14)" }}>
           <div style={{ fontSize: 13, fontWeight: 600, color: "#fff" }}>{currentUser.nombre}</div>
           <div style={{ fontSize: 11.5, color: "rgba(255,255,255,0.55)", marginBottom: 4 }}>{ROL_LABELS[currentUser.rol] || currentUser.rol}</div>
@@ -309,6 +327,7 @@ export default function App() {
             onNuevo={(areaId) => setEditingItem({ nuevoEnArea: areaId })}
             onEditar={(item) => setEditingItem(item)}
             onRevisar={(item) => setReviewingItem(item)}
+            onPreview={(item) => setPreviewItem(item)}
             onEnviar={enviarRevision}
             onEliminar={eliminarItem}
             puedeEditar={puedeEditar}
@@ -347,7 +366,8 @@ export default function App() {
         <ItemEditorModal itemSeed={editingItem} specs={specs} currentUser={currentUser} onClose={() => setEditingItem(null)} onSave={guardarItem} onUploadImagen={api.uploadImagen} />
       )}
 
-      {reviewingItem && <RevisionModal item={reviewingItem} onClose={() => setReviewingItem(null)} onDecidir={decidirRevision} />}
+      {previewItem && <ItemPreviewModal item={previewItem} onClose={() => setPreviewItem(null)} />}
+      {reviewingItem && <RevisionModal item={reviewingItem} currentUser={currentUser} esDirector={isDirector || (isAdmin && reviewingItem?.estado === "revisado")} onClose={() => setReviewingItem(null)} onDecidir={decidirRevision} />}
 
       {previewTest && <TestPreviewModal test={previewTest} items={items} onClose={() => setPreviewTest(null)} />}
 
@@ -357,6 +377,8 @@ export default function App() {
     </div>
   );
 }
+
+
 
 
 

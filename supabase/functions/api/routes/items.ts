@@ -1,7 +1,7 @@
 import { Hono } from "jsr:@hono/hono@4";
 import { Items } from "../models/items.ts";
-import { requerirSesion, requerirAdmin } from "../auth.ts";
-import { AREA_IDS, DIFICULTADES, esTecnico } from "../constants.ts";
+import { requerirSesion, requerirAdmin, requerirDirectorTecnico } from "../auth.ts";
+import { AREA_IDS, DIFICULTADES, esTecnico, esDirectorTecnico } from "../constants.ts";
 import { registrar, obtenerIp } from "../audit.ts";
 
 export const itemsRoutes = new Hono();
@@ -179,6 +179,8 @@ itemsRoutes.post("/import", requerirAdmin, async (c) => {
     detalle: { archivo: nombreArchivo, importados: creados, descartados: filas.length - validas.length }, ip: obtenerIp(c) });
   return c.json({ importados: creados, descartados: filas.length - validas.length }, 201);
 });
+
+
 
 
 

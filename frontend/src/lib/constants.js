@@ -36,16 +36,18 @@ export function areaInfo(id) {
 export const ROL_LABELS = {
   elaborador: "Elaborador/a",
   revisor: "Revisor/a",
+  director_tecnico: "Director/a Tecnico/a",
   administrador: "Administrador/a",
 };
 
 export const DIFICULTADES = ["Baja", "Media", "Alta"];
 
-export const ORDEN_ESTADOS = ["borrador","en_revision","aprobado","apto_para_pilotaje","disponible","descartado_pilotaje","retirado","liberado","rechazado"];
+export const ORDEN_ESTADOS = ["borrador","en_revision","revisado","aprobado","apto_para_pilotaje","disponible","descartado_pilotaje","retirado","liberado","rechazado"];
 
 export const ESTADOS = {
   borrador:            { label: "Borrador",           color: "#8a8a8a" },
   en_revision:         { label: "En revision",        color: "#d4a017" },
+  revisado:            { label: "Revisado",           color: "#1565c0" },
   aprobado:            { label: "Aprobado",           color: "#3f6b4f" },
   apto_para_pilotaje:  { label: "Apto para pilotaje", color: "#1a6fa8" },
   disponible:          { label: "Disponible",         color: "#2e7d32" },
@@ -54,4 +56,5 @@ export const ESTADOS = {
   liberado:            { label: "Liberado",           color: "#6a1b9a" },
   rechazado:           { label: "Rechazado",          color: "#a23b3b" },
 };
+
 

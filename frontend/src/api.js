@@ -42,6 +42,7 @@ export const api = {
     return d.user;
   }),
   get: (endpoint) => request(endpoint),
+  post: (endpoint, body) => request(endpoint, { method: "POST", body }),
   me: () => request("/auth/me").then((d) => d.user),
   changeMyPassword: (passwordActual, passwordNueva) =>
     request("/auth/change-password", { method: "POST", body: { passwordActual, passwordNueva } }),
@@ -88,5 +89,6 @@ export const api = {
   createTest: (payload) => request("/tests", { method: "POST", body: payload }).then((d) => d.test),
   deleteTest: (id) => request(`/tests/${id}`, { method: "DELETE" }),
 };
+
 
 

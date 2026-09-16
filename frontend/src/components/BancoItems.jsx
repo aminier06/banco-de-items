@@ -1,22 +1,12 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { Plus, Search, Filter, ClipboardList, Pencil, Eye, Send, Trash2 } from "lucide-react";
 import { AREAS, ESTADOS, ORDEN_ESTADOS } from "../lib/constants.js";
 import { StampBadge, AreaTag, Banner } from "./shared.jsx";
 
 export default function BancoItems({
-  items,
-  specs,
-  currentUser,
-  puedeEliminarItems,
-  onNuevo,
-  onEditar,
-  onRevisar,
-  onEnviar,
-  onEliminar,
-  puedeEditar,
-  puedeEnviar,
-  puedeRevisar,
-  puedeCrearEn,
+  items, specs, currentUser, puedeEliminarItems,
+  onNuevo, onEditar, onRevisar, onEnviar, onEliminar, onPreview,
+  puedeEditar, puedeEnviar, puedeRevisar, puedeCrearEn,
 }) {
   const [filtroArea, setFiltroArea] = useState("todas");
   const [filtroEstado, setFiltroEstado] = useState("todos");
@@ -125,6 +115,9 @@ export default function BancoItems({
                 </p>
               )}
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <button className="bib-btn bib-btn-ghost" onClick={() => onPreview(item)} title="Vista previa">
+                  <Eye size={13} />
+                </button>
                 <button className="bib-btn bib-btn-ghost" onClick={() => onEditar(item)}>
                   {puedeEditar(item) ? <Pencil size={13} /> : <Eye size={13} />} {puedeEditar(item) ? "Editar" : "Ver"}
                 </button>
@@ -156,3 +149,4 @@ export default function BancoItems({
     </div>
   );
 }
+

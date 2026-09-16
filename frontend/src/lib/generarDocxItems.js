@@ -1,4 +1,4 @@
-import { Document, Packer, Paragraph, TextRun, ImageRun, PageBreak } from "docx";
+﻿import { Document, Packer, Paragraph, TextRun, ImageRun, PageBreak } from "docx";
 
 const LETRAS = ["A", "B", "C", "D"];
 
@@ -39,12 +39,12 @@ export async function generarDocxItems(items, specs) {
     // Tarea (encima del item)
     if (tarea) {
       children.push(new Paragraph({
-        children: [new TextRun({ text: `Tarea: ${tarea.texto}`, bold: true, size: 20, color: "1565c0" })],
+        children: [new TextRun({ text: `Tarea ${tarea.id}: ${tarea.texto}`, bold: true, size: 20, color: "1565c0" })],
         spacing: { after: 120 },
       }));
     } else if (ev) {
       children.push(new Paragraph({
-        children: [new TextRun({ text: `Evidencia: ${ev.texto}`, bold: true, size: 20, color: "1565c0" })],
+        children: [new TextRun({ text: `Evidencia ${ev.id}: ${ev.texto}`, bold: true, size: 20, color: "1565c0" })],
         spacing: { after: 120 },
       }));
     }
@@ -130,3 +130,4 @@ export function descargarBlob(blob, nombreArchivo) {
   a.click();
   URL.revokeObjectURL(url);
 }
+

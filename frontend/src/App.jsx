@@ -148,9 +148,9 @@ export default function App() {
      qué mostrar. Quitar un botón de la pantalla no es seguridad real — la
      seguridad real está en el backend (ver src/auth.js del backend). */
   const puedeEditar = (item) =>
-    !!currentUser && (esTecnico || (item.autorId === currentUser.id && (item.estado === "borrador" || item.estado === "rechazado")));
+    !!currentUser && (esTecnico || (item.autorId === currentUser.id && ["borrador","rechazado","devuelto"].includes(item.estado)));
   const puedeEnviar = (item) =>
-    !!currentUser && item.autorId === currentUser.id && (item.estado === "borrador" || item.estado === "rechazado");
+    !!currentUser && item.autorId === currentUser.id && ["borrador","rechazado","devuelto"].includes(item.estado);
   const puedeRevisarItem = (item) => {
     if (isDirector || (isAdmin && !rolSimulado)) return item.estado === "revisado";
     if (isRevisor) return item.estado === "en_revision";
@@ -379,6 +379,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 

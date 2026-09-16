@@ -8,7 +8,7 @@ export const itemsRoutes = new Hono();
 itemsRoutes.use("*", requerirSesion);
 
 function puedeEditarItem(user: any, item: any) {
-  return esTecnico(user.rol) || (item.autorId === user.id && (item.estado === "borrador" || item.estado === "rechazado"));
+  return esTecnico(user.rol) || (item.autorId === user.id && ["borrador","rechazado","devuelto"].includes(item.estado));
 }
 
 function puedeCrearEnArea(user: any, area: string) {
@@ -108,7 +108,7 @@ itemsRoutes.post("/:id/submit", async (c) => {
   const id = c.req.param("id");
   const item = await Items.findById(id);
   if (!item) return c.json({ error: "Item no encontrado." }, 404);
-  if (item.autorId !== user.id || !["borrador","rechazado"].includes(item.estado)) return c.json({ error: "No puedes enviar este item a revision." }, 403);
+  if (item.autorId !== user.id || !["borrador","rechazado","devuelto"].includes(item.estado)) return c.json({ error: "No puedes enviar este item a revision." }, 403);
   if (!item.afirmacionId || !item.evidenciaId) return c.json({ error: "Asigna afirmacion y evidencia antes de enviar." }, 400);
   const historial = [...item.historial, { fecha: new Date().toISOString().slice(0,10), autor: user.nombre, accion: "Enviado a revision." }];
   const actualizado = await Items.setEstado(item.id, "en_revision", historial);
@@ -179,6 +179,8 @@ itemsRoutes.post("/import", requerirAdmin, async (c) => {
     detalle: { archivo: nombreArchivo, importados: creados, descartados: filas.length - validas.length }, ip: obtenerIp(c) });
   return c.json({ importados: creados, descartados: filas.length - validas.length }, 201);
 });
+
+
 
 
 

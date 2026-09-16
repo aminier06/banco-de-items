@@ -42,7 +42,7 @@ export const ROL_LABELS = {
 
 export const DIFICULTADES = ["Baja", "Media", "Alta"];
 
-export const ORDEN_ESTADOS = ["borrador","en_revision","revisado","aprobado","apto_para_pilotaje","disponible","descartado_pilotaje","retirado","liberado","rechazado"];
+export const ORDEN_ESTADOS = ["borrador","en_revision","revisado","devuelto","aprobado","apto_para_pilotaje","disponible","descartado_pilotaje","retirado","liberado","rechazado"];
 
 export const ESTADOS = {
   borrador:            { label: "Borrador",           color: "#8a8a8a" },
@@ -54,7 +54,9 @@ export const ESTADOS = {
   descartado_pilotaje: { label: "Descartado",         color: "#b71c1c" },
   retirado:            { label: "Retirado",           color: "#6d4c41" },
   liberado:            { label: "Liberado",           color: "#6a1b9a" },
+  devuelto:            { label: "Devuelto",           color: "#e65100" },
   rechazado:           { label: "Rechazado",          color: "#a23b3b" },
 };
+
 
 

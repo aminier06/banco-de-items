@@ -1,4 +1,4 @@
-﻿import { Document, Packer, Paragraph, TextRun, ImageRun, PageBreak } from "docx";
+import { Document, Packer, Paragraph, TextRun, ImageRun, PageBreak } from "docx";
 
 const LETRAS = ["A", "B", "C", "D"];
 

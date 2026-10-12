@@ -1,6 +1,6 @@
 ﻿import Papa from "papaparse";
 import * as XLSX from "xlsx";
-import { AREAS, ComplejidadES } from "./constants.js";
+import { AREAS, DIFICULTADES } from "./constants.js";
 
 export const contarPalabras = (s) => (s || "").trim().split(/\s+/).filter(Boolean).length;
 export const hoy = () => new Date().toISOString().slice(0, 10);
@@ -22,7 +22,7 @@ export function resolverArea(valor) {
 
 export function resolverComplejidad(valor) {
   const v = normalizar(valor);
-  const match = ComplejidadES.find((d) => normalizar(d) === v);
+  const match = DIFICULTADES.find((d) => normalizar(d) === v);
   return match || null;
 }
 
@@ -153,4 +153,5 @@ export function descargarPlantillaCSV() {
   a.click();
   URL.revokeObjectURL(url);
 }
+
 

@@ -1,6 +1,6 @@
 ﻿import React, { useState } from "react";
 import { Save, ImagePlus, X } from "lucide-react";
-import { AREAS, ComplejidadES } from "../lib/constants.js";
+import { AREAS, DIFICULTADES } from "../lib/constants.js";
 import { contarPalabras } from "../lib/utils.js";
 import { ModalShell, Banner } from "./shared.jsx";
 
@@ -129,7 +129,7 @@ export default function ItemEditorModal({ itemSeed, specs, currentUser, onClose,
         <div>
           <label className="bib-label">Complejidad</label>
           <select className="bib-select" disabled={soloLectura} value={form.Complejidad} onChange={(e) => setForm({ ...form, Complejidad: e.target.value })}>
-            {ComplejidadES.map((d) => (
+            {DIFICULTADES.map((d) => (
               <option key={d} value={d}>{d}</option>
             ))}
           </select>
@@ -274,5 +274,6 @@ export default function ItemEditorModal({ itemSeed, specs, currentUser, onClose,
     </ModalShell>
   );
 }
+
 
 

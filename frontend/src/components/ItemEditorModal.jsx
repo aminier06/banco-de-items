@@ -128,7 +128,7 @@ export default function ItemEditorModal({ itemSeed, specs, currentUser, onClose,
         </div>
         <div>
           <label className="bib-label">Complejidad</label>
-          <select className="bib-select" disabled={soloLectura} value={form.Complejidad} onChange={(e) => setForm({ ...form, Complejidad: e.target.value })}>
+          <select className="bib-select" disabled={soloLectura} value={form.dificultad} onChange={(e) => setForm({ ...form, dificultad: e.target.value })}>
             {DIFICULTADES.map((d) => (
               <option key={d} value={d}>{d}</option>
             ))}
@@ -274,6 +274,7 @@ export default function ItemEditorModal({ itemSeed, specs, currentUser, onClose,
     </ModalShell>
   );
 }
+
 
 
 

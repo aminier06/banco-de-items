@@ -20,7 +20,7 @@ export function resolverArea(valor) {
   return match ? match.id : null;
 }
 
-export function resolverComplejidad(valor) {
+export function resolverDificultad(valor) {
   const v = normalizar(valor);
   const match = DIFICULTADES.find((d) => normalizar(d) === v);
   return match || null;
@@ -153,5 +153,6 @@ export function descargarPlantillaCSV() {
   a.click();
   URL.revokeObjectURL(url);
 }
+
 
 

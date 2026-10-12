@@ -50,7 +50,7 @@ export default function ImportarItems({ specs, users, currentUser, onImportar })
       const val = (key) => (mapping[key] ? (row[mapping[key]] ?? "").toString().trim() : "");
       const areaDetectada = mapping.area ? resolverArea(val("area")) : null;
       const area = areaDetectada || areaFija;
-      const dificultadDetectada = resolverDificultad(val("dificultad"));
+      const dificultadDetectada = resolverDificultad(val("Complejidad"));
       const clasif = resolverClasificacion(area, val("competencia"), val("afirmacion"), val("evidencia"), val("tarea"), specs);
       const opciones = ["opcionA", "opcionB", "opcionC", "opcionD"].map((k) => val(k));
       const idxRespuesta = resolverIndiceRespuesta(val("respuestaCorrecta"));
@@ -197,4 +197,5 @@ export default function ImportarItems({ specs, users, currentUser, onImportar })
     </div>
   );
 }
+
 

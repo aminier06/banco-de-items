@@ -132,7 +132,7 @@ export default function BancoItems({
                   ) : (
                     <span className="code-pill" style={{ background: "rgba(162,59,59,0.1)", color: "var(--red)" }}>Sin clasificar</span>
                   )}
-                  <span className="code-pill">Dificultad: {item.dificultad}</span>
+                  <span className="code-pill">Complejidad: {item.Complejidad}</span>
                 </div>
                 <div style={{ fontSize: 11.5, color: "var(--ink-soft)" }}>Autor/a: {item.autorNombre || "—"}</div>
               </div>
@@ -185,6 +185,7 @@ export default function BancoItems({
     </div>
   );
 }
+
 
 
 

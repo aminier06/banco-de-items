@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+﻿import React, { useState, useMemo } from "react";
 import { Plus, Save, CheckCircle, XCircle, FlaskConical, Trash2 } from "lucide-react";
 import { AREAS, areaInfo } from "../lib/constants.js";
 import { Banner } from "./shared.jsx";
@@ -80,7 +80,7 @@ function ModalNuevoPilotaje({ items, nivel, grado, currentUser, onGuardar, onCer
             {aptos.map((it) => (
               <label key={it.id} style={{ display: "flex", gap: 8, alignItems: "flex-start", padding: "8px 10px", borderBottom: "1px solid var(--rule)", cursor: "pointer", background: seleccionados.includes(it.id) ? "rgba(28,49,68,0.06)" : "#fff" }}>
                 <input type="checkbox" checked={seleccionados.includes(it.id)} onChange={() => toggle(it.id)} style={{ marginTop: 2 }} />
-                <span style={{ fontSize: 13 }}>{it.enunciado?.slice(0, 90)}... <span className="code-pill">{it.dificultad}</span></span>
+                <span style={{ fontSize: 13 }}>{it.enunciado?.slice(0, 90)}... <span className="code-pill">{it.Complejidad}</span></span>
               </label>
             ))}
           </div>
@@ -100,7 +100,7 @@ function ModalNuevoPilotaje({ items, nivel, grado, currentUser, onGuardar, onCer
 
 function ModalResultado({ item, pilotajeId, onGuardar, onCerrar }) {
   const [aprobado, setAprobado] = useState(null);
-  const [dificultad, setDificultad] = useState("");
+  const [Complejidad, setComplejidad] = useState("");
   const [discriminacion, setDiscriminacion] = useState("");
   const [b, setB] = useState("");
   const [a, setA] = useState("");
@@ -112,7 +112,7 @@ function ModalResultado({ item, pilotajeId, onGuardar, onCerrar }) {
     if (aprobado === null) return;
     setGuardando(true);
     const params = {
-      dificultad_tct: dificultad ? Number(dificultad) : undefined,
+      Complejidad_tct: Complejidad ? Number(Complejidad) : undefined,
       discriminacion: discriminacion ? Number(discriminacion) : undefined,
       parametros_rasch: (b || a) ? { b: b ? Number(b) : undefined, a: a ? Number(a) : undefined } : undefined,
       resultado_dif: resultadoDif,
@@ -130,8 +130,8 @@ function ModalResultado({ item, pilotajeId, onGuardar, onCerrar }) {
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
           <div>
-            <label className="bib-label">Dificultad TCT (p)</label>
-            <input className="bib-input" type="number" step="0.01" min="0" max="1" placeholder="0.00 - 1.00" value={dificultad} onChange={(e) => setDificultad(e.target.value)} />
+            <label className="bib-label">Complejidad TCT (p)</label>
+            <input className="bib-input" type="number" step="0.01" min="0" max="1" placeholder="0.00 - 1.00" value={Complejidad} onChange={(e) => setComplejidad(e.target.value)} />
           </div>
           <div>
             <label className="bib-label">Discriminacion (rpb)</label>
@@ -278,3 +278,4 @@ export default function PilotajePanel({ pilotajes, items, nivel, grado, isAdmin,
     </div>
   );
 }
+

@@ -1,6 +1,6 @@
 ﻿import Papa from "papaparse";
 import * as XLSX from "xlsx";
-import { AREAS, DIFICULTADES } from "./constants.js";
+import { AREAS, ComplejidadES } from "./constants.js";
 
 export const contarPalabras = (s) => (s || "").trim().split(/\s+/).filter(Boolean).length;
 export const hoy = () => new Date().toISOString().slice(0, 10);
@@ -20,9 +20,9 @@ export function resolverArea(valor) {
   return match ? match.id : null;
 }
 
-export function resolverDificultad(valor) {
+export function resolverComplejidad(valor) {
   const v = normalizar(valor);
-  const match = DIFICULTADES.find((d) => normalizar(d) === v);
+  const match = ComplejidadES.find((d) => normalizar(d) === v);
   return match || null;
 }
 
@@ -80,7 +80,7 @@ export const CAMPOS_IMPORTACION = [
   { key: "afirmacion", label: "Afirmacion (codigo o texto)", requerido: false },
   { key: "evidencia", label: "Evidencia (codigo o texto)", requerido: false },
   { key: "tarea", label: "Tarea (codigo o texto)", requerido: false },
-  { key: "dificultad", label: "Dificultad (Baja / Media / Alta)", requerido: false },
+  { key: "Complejidad", label: "Complejidad (Baja / Media / Alta)", requerido: false },
   { key: "tipoTexto", label: "Tipo de texto", requerido: false },
   { key: "contexto", label: "Contexto / texto base", requerido: false },
   { key: "enunciado", label: "Enunciado", requerido: true },
@@ -129,7 +129,7 @@ export function descargarPlantillaCSV() {
     afirmacion: "A1",
     evidencia: "1.2",
     tarea: "1.2.1",
-    dificultad: "Baja",
+    Complejidad: "Baja",
     tipoTexto: "narrativo",
     contexto: "Texto de hasta 350 palabras sobre el que se basa la pregunta.",
     enunciado: "Que informacion del texto permite responder la pregunta?",
@@ -153,3 +153,4 @@ export function descargarPlantillaCSV() {
   a.click();
   URL.revokeObjectURL(url);
 }
+

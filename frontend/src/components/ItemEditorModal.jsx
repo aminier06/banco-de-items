@@ -1,6 +1,6 @@
 ﻿import React, { useState } from "react";
 import { Save, ImagePlus, X } from "lucide-react";
-import { AREAS, DIFICULTADES } from "../lib/constants.js";
+import { AREAS, ComplejidadES } from "../lib/constants.js";
 import { contarPalabras } from "../lib/utils.js";
 import { ModalShell, Banner } from "./shared.jsx";
 
@@ -15,7 +15,7 @@ export default function ItemEditorModal({ itemSeed, specs, currentUser, onClose,
         tareaId: "",
         imagenUrl: "",
         tipoTexto: "",
-        dificultad: "Media",
+        Complejidad: "Media",
         contexto: "",
         enunciado: "",
         opciones: ["", "", "", ""],
@@ -127,9 +127,9 @@ export default function ItemEditorModal({ itemSeed, specs, currentUser, onClose,
           )}
         </div>
         <div>
-          <label className="bib-label">Dificultad</label>
-          <select className="bib-select" disabled={soloLectura} value={form.dificultad} onChange={(e) => setForm({ ...form, dificultad: e.target.value })}>
-            {DIFICULTADES.map((d) => (
+          <label className="bib-label">Complejidad</label>
+          <select className="bib-select" disabled={soloLectura} value={form.Complejidad} onChange={(e) => setForm({ ...form, Complejidad: e.target.value })}>
+            {ComplejidadES.map((d) => (
               <option key={d} value={d}>{d}</option>
             ))}
           </select>
@@ -274,4 +274,5 @@ export default function ItemEditorModal({ itemSeed, specs, currentUser, onClose,
     </ModalShell>
   );
 }
+
 
